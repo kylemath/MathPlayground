@@ -1,0 +1,14 @@
+{
+  "all_stabilizers_trivial": true,
+  "d4_canonical_lex_count": 880,
+  "method": "7-free-parameter linear basis; P(16,7) assignments",
+  "orbit_size_histogram_on_canonical_reps": {
+    "8": 880
+  },
+  "oriented_count": 7040,
+  "product_check_canonical_times_8": true,
+  "stabilizer_histogram": {
+    "1": 7040
+  },
+  "unique_oriented": 7040
+}

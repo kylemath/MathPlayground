@@ -1,0 +1,44 @@
+{
+  "verification": {
+    "max_offdiag_1d": 3.3306690738754696e-16,
+    "max_offdiag_2d": 3.7383290907300193e-16,
+    "trial_0_parseval_diff": 7.275957614183426e-12,
+    "trial_0_recon_err": 7.105427357601002e-14,
+    "trial_1_parseval_diff": 3.637978807091713e-12,
+    "trial_1_recon_err": 3.552713678800501e-14,
+    "trial_2_parseval_diff": 7.275957614183426e-12,
+    "trial_2_recon_err": 3.552713678800501e-14,
+    "trial_3_parseval_diff": 7.275957614183426e-12,
+    "trial_3_recon_err": 4.263256414560601e-14,
+    "trial_4_parseval_diff": 1.4551915228366852e-11,
+    "trial_4_recon_err": 4.263256414560601e-14
+  },
+  "magic_higher_moments_energy": {
+    "E_total": 1496.0,
+    "E_dc": 1156.0,
+    "E_nonconst": 340.0,
+    "E_retained": 340.0,
+    "E_residual": 1156.0,
+    "frac_retained_of_total": 0.22727272727272727,
+    "frac_retained_of_nonconst": 1.0,
+    "frac_residual_of_total": 0.7727272727272727,
+    "frac_residual_of_nonconst": 0.0
+  },
+  "constant_field_energy": {
+    "E_total": 784.0,
+    "E_dc": 784.0,
+    "E_nonconst": 0.0,
+    "E_retained": 4.468157470978387e-31,
+    "E_residual": 784.0,
+    "frac_retained_of_total": 5.699180447676514e-34,
+    "frac_retained_of_nonconst": 0.0,
+    "frac_residual_of_total": 1.0,
+    "frac_residual_of_nonconst": 0.0
+  },
+  "magic_nontrivial_coeffs": {
+    "00": 34.0,
+    "12": -14.310835,
+    "21": -4.472136,
+    "32": -10.733126
+  }
+}

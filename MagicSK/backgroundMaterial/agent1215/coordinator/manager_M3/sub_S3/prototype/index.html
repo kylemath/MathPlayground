@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Moment Records Explorer — Static Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>Magic Moment Records Explorer</h1>
+      <p class="subtitle">Zero-dependency prototype for filtering, inspecting, and comparing spatial-moment records of order-4 squares.</p>
+      <p class="schema-badge" id="schema-badge" aria-live="polite">Schema loading…</p>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <section class="panel controls-panel" aria-labelledby="controls-heading">
+      <h2 id="controls-heading">Filters &amp; dataset</h2>
+
+      <div class="control-row">
+        <label for="search-input">Search record ID</label>
+        <input type="search" id="search-input" autocomplete="off" placeholder="e.g. M001">
+      </div>
+
+      <div class="control-row">
+        <label for="cohort-select">Cohort</label>
+        <select id="cohort-select">
+          <option value="all">All cohorts</option>
+          <option value="magic">magic</option>
+          <option value="swapped-1">swapped-1</option>
+          <option value="swapped-2">swapped-2</option>
+        </select>
+      </div>
+
+      <div class="control-row">
+        <label for="group-select">Dudeney group</label>
+        <select id="group-select">
+          <option value="all">All groups</option>
+        </select>
+      </div>
+
+      <fieldset class="class-filter">
+        <legend>Classification tags</legend>
+        <label><input type="checkbox" name="class-filter" value="ordinary" checked> ordinary</label>
+        <label><input type="checkbox" name="class-filter" value="pandiagonal" checked> pandiagonal</label>
+        <label><input type="checkbox" name="class-filter" value="associative" checked> associative</label>
+        <label><input type="checkbox" name="class-filter" value="most-perfect" checked> most-perfect</label>
+      </fieldset>
+
+      <div class="control-row inline-check">
+        <label><input type="checkbox" id="magic-only"> Magic squares only</label>
+      </div>
+
+      <div class="control-row">
+        <label for="sort-select">Sort (stable)</label>
+        <select id="sort-select">
+          <option value="recordId">Record ID</option>
+          <option value="interactionEnergy-desc">Interaction energy ↓</option>
+          <option value="interactionEnergy-asc">Interaction energy ↑</option>
+          <option value="spectralCentroid-desc">Spectral centroid ↓</option>
+          <option value="spectralCentroid-asc">Spectral centroid ↑</option>
+          <option value="lineDefectEnergy-desc">Line defect energy ↓</option>
+          <option value="dudeneyGroup">Dudeney group</option>
+        </select>
+      </div>
+
+      <div class="button-row">
+        <button type="button" id="reset-filters">Reset filters</button>
+        <button type="button" id="demo-loading">Demo loading</button>
+        <button type="button" id="demo-error">Demo error</button>
+        <button type="button" id="reload-data">Reload data</button>
+      </div>
+
+      <div id="dataset-status" class="status-banner" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="panel summary-panel" aria-labelledby="summary-heading">
+      <h2 id="summary-heading">Filtered summary</h2>
+      <dl class="summary-grid" id="summary-stats">
+        <div><dt>Visible records</dt><dd id="stat-count">—</dd></div>
+        <div><dt>Magic count</dt><dd id="stat-magic">—</dd></div>
+        <div><dt>Mean interaction E</dt><dd id="stat-interaction">—</dd></div>
+        <div><dt>Mean spectral centroid</dt><dd id="stat-centroid">—</dd></div>
+      </dl>
+      <div id="group-summary" class="group-summary" aria-label="Group distribution"></div>
+    </section>
+
+    <section class="panel list-panel" aria-labelledby="list-heading">
+      <h2 id="list-heading">Record list</h2>
+      <p class="hint">Select up to two records for comparison. Use arrow keys in the square diagram below.</p>
+      <div id="list-state" class="list-state" hidden></div>
+      <div class="table-wrap">
+        <table id="record-table">
+          <caption class="visually-hidden">Filterable list of moment records</caption>
+          <thead>
+            <tr>
+              <th scope="col">Compare</th>
+              <th scope="col"><button type="button" class="sort-header" data-sort="recordId">ID</button></th>
+              <th scope="col">Cohort</th>
+              <th scope="col">Group</th>
+              <th scope="col">Classes</th>
+              <th scope="col"><button type="button" class="sort-header" data-sort="interactionEnergy">Interaction E</button></th>
+              <th scope="col"><button type="button" class="sort-header" data-sort="spectralCentroid">Centroid</button></th>
+              <th scope="col">Inspect</th>
+            </tr>
+          </thead>
+          <tbody id="record-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel detail-panel" aria-labelledby="detail-heading">
+      <h2 id="detail-heading">Selected square</h2>
+      <div id="detail-empty" class="empty-state">
+        <p>No record selected. Choose <strong>Inspect</strong> from the list or activate a compare checkbox.</p>
+      </div>
+      <div id="detail-content" hidden>
+        <div class="detail-meta" id="detail-meta"></div>
+
+        <div class="diagram-block">
+          <h3 id="diagram-heading">4×4 square diagram</h3>
+          <p class="hint">Keyboard: arrow keys move focus; Enter/Space selects a cell; Home/End jump row; Esc clears cell focus.</p>
+          <div id="square-diagram" role="grid" aria-labelledby="diagram-heading" aria-describedby="diagram-status" tabindex="0"></div>
+          <p id="diagram-status" class="diagram-status" aria-live="polite"></p>
+          <table class="line-sums-table" id="line-sums-table">
+            <caption>Line sums for selected record (text alternative)</caption>
+            <thead><tr><th scope="col">Kind</th><th scope="col">Values</th><th scope="col">Defect energy</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="energy-block">
+          <h3 id="energy-heading">Moment energy visualization</h3>
+          <div id="energy-viz" aria-labelledby="energy-heading"></div>
+          <details class="energy-table-details">
+            <summary>Show numeric energy table (screen-reader / no-SVG fallback)</summary>
+            <div id="energy-table-alt"></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel compare-panel" aria-labelledby="compare-heading">
+      <h2 id="compare-heading">Comparison</h2>
+      <div id="compare-empty" class="empty-state">
+        <p>Select two records using the compare checkboxes to view side-by-side metrics.</p>
+      </div>
+      <div id="compare-content" class="compare-grid" hidden></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Static prototype · schema v0.1.0 · opens via <code>file://</code> or local HTTP · no external dependencies</p>
+  </footer>
+
+  <script src="embedded-data.js"></script>
+  <script src="data-loader.js"></script>
+  <script src="diagram.js"></script>
+  <script src="energy-viz.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

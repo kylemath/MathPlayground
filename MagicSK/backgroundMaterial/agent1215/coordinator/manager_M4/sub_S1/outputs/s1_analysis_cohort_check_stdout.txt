@@ -1,0 +1,15 @@
+{
+  "total_rows": 4400,
+  "cohort_counts": {
+    "magic": 880,
+    "random": 880,
+    "swap-1": 880,
+    "swap-2": 880,
+    "swap-3": 880
+  },
+  "magic_true_by_cohort": {
+    "magic": 880
+  },
+  "expected_total": 4400,
+  "expected_per_cohort": 880
+}

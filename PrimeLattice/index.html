@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prime Lattice Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Prime Lattice Explorer</h1>
+      <p class="subtitle">
+        Place each integer <em>n</em> at lattice coordinates
+        <span class="mono">(n mod L, &lfloor;n/L&rfloor; mod L, &lfloor;n/L<sup>2</sup>&rfloor;)</span>
+        and see what stays when you keep only the primes &mdash; vs random,
+        periodic, and quasi-periodic control sets.
+      </p>
+    </div>
+    <div class="hud">
+      <div><span class="hud-label">Mode</span><span id="hud-mode">Perspective</span></div>
+      <div><span class="hud-label">Visible dots</span><span id="hud-count">0</span></div>
+      <div><span class="hud-label">FPS</span><span id="hud-fps">0</span></div>
+    </div>
+  </header>
+
+  <main>
+    <aside class="panel">
+      <section class="card">
+        <h2>Range</h2>
+        <label class="slider-row">
+          <span>Index mapping</span>
+          <select id="ctl-mapping">
+            <option value="ulamSnake">3D Ulam snake &mdash; continuous</option>
+            <option value="cubicShell">3D Ulam cubic shells (piecewise)</option>
+            <option value="stackedUlam">Stacked 2D Ulam (per Z-slab)</option>
+            <option value="raster">Row-major raster (corner)</option>
+          </select>
+        </label>
+        <p class="hint" id="mapping-hint">
+          Continuous snake: a true Hamiltonian path from the origin outward
+          &mdash; <code>n</code> and <code>n+1</code> are always neighbours
+          (Chebyshev distance 1), so prime "spokes" can form.
+        </p>
+        <label class="slider-row">
+          <span>Integers considered: <strong id="lbl-n-count">100,000</strong>
+            <span class="muted">(10<sup id="lbl-n-exp">5.0</sup>)</span>
+          </span>
+          <input type="range" id="ctl-n" min="1.5" max="7" step="0.05" value="5.0" />
+        </label>
+        <label class="slider-row">
+          <span>Lattice side <strong>L</strong>: <strong id="lbl-L">101</strong>
+            <span class="muted">(capacity = <span id="lbl-Lcube">1,030,301</span>)</span>
+          </span>
+          <input type="range" id="ctl-L" min="11" max="401" step="2" value="101" />
+        </label>
+        <p class="hint">
+          For cubic shells, integers up to <code>(2&lfloor;(L&minus;1)/2&rfloor;+1)<sup>3</sup></code>
+          are placed; anything beyond is dropped. Use <strong>Fit L to N</strong>
+          to size the cube to your current N.
+        </p>
+        <button id="btn-fit-L" class="ghost">Fit L to N</button>
+      </section>
+
+      <section class="card">
+        <h2>Point sets</h2>
+        <ul class="layer-list" id="layer-list"></ul>
+        <p class="hint">Toggle layers and tune each layer's parameters. Colours match the legend.</p>
+      </section>
+
+      <section class="card">
+        <h2>Camera</h2>
+        <div class="seg" role="radiogroup" aria-label="Projection">
+          <label><input type="radio" name="proj" value="perspective" checked /> Perspective</label>
+          <label><input type="radio" name="proj" value="orthographic" /> Orthographic</label>
+        </div>
+        <label class="slider-row" id="row-fov">
+          <span>Field of view: <strong id="lbl-fov">60&deg;</strong></span>
+          <input type="range" id="ctl-fov" min="15" max="120" step="1" value="60" />
+        </label>
+        <label class="slider-row">
+          <span>Zoom: <strong id="lbl-zoom">1.00&times;</strong></span>
+          <input type="range" id="ctl-zoom" min="0.2" max="6" step="0.01" value="1.0" />
+        </label>
+        <label class="slider-row">
+          <span>Camera distance: <strong id="lbl-dist">2.5</strong></span>
+          <input type="range" id="ctl-dist" min="1.0" max="6" step="0.05" value="2.5" />
+        </label>
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="ctl-autorot" /> Auto-rotate</label>
+          <label><input type="checkbox" id="ctl-depthfade" checked /> Depth fade</label>
+        </div>
+        <button id="btn-reset-cam" class="ghost">Reset camera</button>
+      </section>
+
+      <section class="card">
+        <h2>Slice (Ulam plane)</h2>
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="ctl-slice-on" /> Show single slab</label>
+          <label><input type="checkbox" id="ctl-slice-grad" /> Depth gradient (colour by slab)</label>
+          <label><input type="checkbox" id="ctl-slice-lines" /> Connect Ulam lines</label>
+          <label><input type="checkbox" id="ctl-slice-lines-only" /> Lines only</label>
+        </div>
+        <div class="seg" role="radiogroup" aria-label="Slice axis">
+          <label><input type="radio" name="slice-axis" value="0" /> X</label>
+          <label><input type="radio" name="slice-axis" value="1" /> Y</label>
+          <label><input type="radio" name="slice-axis" value="2" checked /> Z</label>
+        </div>
+        <label class="slider-row">
+          <span>Slab index: <strong id="lbl-slice-idx">0</strong>
+            <span class="muted">(of &plusmn;<span id="lbl-slice-max">50</span>)</span>
+          </span>
+          <input type="range" id="ctl-slice-idx" min="-50" max="50" step="1" value="0" />
+        </label>
+        <label class="slider-row">
+          <span>Thickness: <strong id="lbl-slice-thick">1</strong> cells</span>
+          <input type="range" id="ctl-slice-thick" min="1" max="21" step="2" value="1" />
+        </label>
+        <label class="slider-row">
+          <span>Line threshold: <strong id="lbl-line-min">5</strong> hits</span>
+          <input type="range" id="ctl-line-min" min="2" max="16" step="1" value="5" />
+        </label>
+        <label class="slider-row">
+          <span>Bridge gaps: <strong id="lbl-line-gap">3</strong> cells</span>
+          <input type="range" id="ctl-line-gap" min="0" max="12" step="1" value="3" />
+        </label>
+        <p class="hint">
+          Clips to one lattice layer so you see a flat 2D Ulam plane instead of
+          the union of all slabs. Picking an axis snaps the camera to that
+          orthographic view. Line mode scans each slab for horizontal, vertical,
+          and diagonal runs, then overlays those detected structures.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Appearance</h2>
+        <label class="slider-row">
+          <span>Dot size: <strong id="lbl-dot">1.6</strong> px</span>
+          <input type="range" id="ctl-dot" min="0.3" max="6" step="0.1" value="1.6" />
+        </label>
+        <label class="slider-row">
+          <span>Alpha: <strong id="lbl-alpha">0.85</strong></span>
+          <input type="range" id="ctl-alpha" min="0.1" max="1" step="0.01" value="0.85" />
+        </label>
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="ctl-showbox" checked /> Lattice cube wireframe</label>
+          <label><input type="checkbox" id="ctl-showaxes" /> Axes</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>About</h2>
+        <p class="hint">
+          Drag the canvas to orbit. Mouse wheel zooms. <strong>Perspective</strong>
+          diagonals are camera-sightline rays through collinear lattice
+          points. <strong>Orthographic raster</strong> diagonals are an arithmetic
+          artefact of how the raster wraps (multiples of small primes shift
+          by <code>L mod p</code> per row). The <strong>3D Ulam snake</strong> is a
+          true continuous path from the origin (consecutive integers always
+          touch), so it shows genuine prime-polynomial spokes; the
+          <strong>cubic-shell</strong> variant grows the same shells but visits each
+          in disconnected pieces.
+        </p>
+      </section>
+    </aside>
+
+    <section class="stage">
+      <canvas id="view" aria-label="3D point cloud canvas"></canvas>
+      <div class="view-axes" role="group" aria-label="Align camera to axis">
+        <span class="view-axes-label">Align view</span>
+        <button class="axis-btn axis-x" data-axis="x" title="Look down X — orthographic Y/Z plane">X</button>
+        <button class="axis-btn axis-y" data-axis="y" title="Look down Y — orthographic X/Z plane">Y</button>
+        <button class="axis-btn axis-z" data-axis="z" title="Look down Z — orthographic X/Y plane">Z</button>
+      </div>
+      <div class="legend" id="legend"></div>
+    </section>
+  </main>
+
+  <script src="lattice.js"></script>
+  <script src="render.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+=== Control Definition Audit ===
+Seed: 20260709
+Swap method: rng.sample(range(16), 2*count) then pairwise swap
+Random method: rng.shuffle(list(range(1,17)))
+swap_1_first_source: permutation=True, cells=[1, 2, 15, 16, 12, 9, 3, 5, 13, 7, 10, 4, 8, 11, 6, 14]
+swap_2_first_source: permutation=True, cells=[3, 2, 15, 16, 12, 14, 1, 5, 13, 7, 11, 4, 8, 10, 6, 9]
+swap_3_first_source: permutation=True, cells=[16, 13, 10, 1, 12, 14, 3, 5, 2, 7, 15, 4, 8, 11, 6, 9]
+R001 preview cells: [14, 1, 6, 9, 11, 4, 13, 7, 15, 10, 5, 16, 8, 2, 3, 12]
+R002 preview cells: [12, 16, 3, 4, 2, 8, 7, 15, 6, 10, 5, 1, 9, 11, 13, 14]
+R003 preview cells: [11, 16, 6, 7, 14, 13, 10, 8, 3, 15, 1, 12, 4, 9, 2, 5]
+
+=== Aggregation Audit ===
+Cohort summary matches shipped: True
+{'cohort': 'magic', 'count': 880, 'magicCount': 880, 'meanLineDefect': 0.0, 'meanAxialEnergy': 0.0, 'meanLowOrderEnergy': 124.845091, 'meanSpectralCentroid': 4.0}
+{'cohort': 'random', 'count': 880, 'magicCount': 0, 'meanLineDefect': 677.177273, 'meanAxialEnergy': 136.454545, 'meanLowOrderEnergy': 66.846318, 'meanSpectralCentroid': 4.008771}
+{'cohort': 'swap-1', 'count': 880, 'magicCount': 0, 'meanLineDefect': 161.654545, 'meanAxialEnergy': 32.821023, 'meanLowOrderEnergy': 111.983, 'meanSpectralCentroid': 3.998224}
+{'cohort': 'swap-2', 'count': 880, 'magicCount': 0, 'meanLineDefect': 315.690909, 'meanAxialEnergy': 63.56875, 'meanLowOrderEnergy': 98.179864, 'meanSpectralCentroid': 3.99859}
+{'cohort': 'swap-3', 'count': 880, 'magicCount': 0, 'meanLineDefect': 429.363636, 'meanAxialEnergy': 84.6375, 'meanLowOrderEnergy': 90.937568, 'meanSpectralCentroid': 3.986844}
+
+=== Reproducibility Run ===
+Wrote 4400 records to /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run/analysis.json, /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run/analysis.csv, and analysis-data.js
+Fully reproducible: True
+Metadata matches: True
+Metric mismatches: 0
+Wrote /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/control_repro_audit.json
+=== Control Definition Audit ===
+Seed: 20260709
+Swap method: rng.sample(range(16), 2*count) then pairwise swap
+Random method: rng.shuffle(list(range(1,17)))
+swap_1_first_source: permutation=True, cells=[1, 2, 15, 16, 12, 9, 3, 5, 13, 7, 10, 4, 8, 11, 6, 14]
+swap_2_first_source: permutation=True, cells=[3, 2, 15, 16, 12, 14, 1, 5, 13, 7, 11, 4, 8, 10, 6, 9]
+swap_3_first_source: permutation=True, cells=[16, 13, 10, 1, 12, 14, 3, 5, 2, 7, 15, 4, 8, 11, 6, 9]
+R001 preview cells: [14, 1, 6, 9, 11, 4, 13, 7, 15, 10, 5, 16, 8, 2, 3, 12]
+R002 preview cells: [12, 16, 3, 4, 2, 8, 7, 15, 6, 10, 5, 1, 9, 11, 13, 14]
+R003 preview cells: [11, 16, 6, 7, 14, 13, 10, 8, 3, 15, 1, 12, 4, 9, 2, 5]
+
+=== Aggregation Audit ===
+Cohort summary matches shipped: True
+{'cohort': 'magic', 'count': 880, 'magicCount': 880, 'meanLineDefect': 0.0, 'meanAxialEnergy': 0.0, 'meanLowOrderEnergy': 124.845091, 'meanSpectralCentroid': 4.0}
+{'cohort': 'random', 'count': 880, 'magicCount': 0, 'meanLineDefect': 677.177273, 'meanAxialEnergy': 136.454545, 'meanLowOrderEnergy': 66.846318, 'meanSpectralCentroid': 4.008771}
+{'cohort': 'swap-1', 'count': 880, 'magicCount': 0, 'meanLineDefect': 161.654545, 'meanAxialEnergy': 32.821023, 'meanLowOrderEnergy': 111.983, 'meanSpectralCentroid': 3.998224}
+{'cohort': 'swap-2', 'count': 880, 'magicCount': 0, 'meanLineDefect': 315.690909, 'meanAxialEnergy': 63.56875, 'meanLowOrderEnergy': 98.179864, 'meanSpectralCentroid': 3.99859}
+{'cohort': 'swap-3', 'count': 880, 'magicCount': 0, 'meanLineDefect': 429.363636, 'meanAxialEnergy': 84.6375, 'meanLowOrderEnergy': 90.937568, 'meanSpectralCentroid': 3.986844}
+
+=== Reproducibility Run ===
+Wrote 4400 records to /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run/analysis.json, /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run/analysis.csv, and analysis-data.js
+Fully reproducible: True
+Metadata matches: True
+Metric mismatches: 0
+Wrote /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/control_repro_audit.json

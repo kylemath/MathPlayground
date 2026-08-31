@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magic Moment Payload Feasibility</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { margin: 1.5rem; background: #111; color: #eee; }
+    pre { background: #1c1c1c; padding: 1rem; overflow: auto; border-radius: 8px; }
+    .ok { color: #7dffa8; }
+    .warn { color: #ffd27d; }
+    table { border-collapse: collapse; margin-top: 1rem; }
+    td, th { border: 1px solid #444; padding: 0.4rem 0.7rem; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Payload / Performance Feasibility (Browser)</h1>
+  <p>Zero-dependency smoke test for <code>magic_moment_v1_880.json</code>. Serve this folder over HTTP or open via file picker.</p>
+  <p>
+    <input type="file" id="filePicker" accept=".json,application/json">
+    <button type="button" id="loadDefault">Load bundled sample (HTTP only)</button>
+  </p>
+  <div id="status">Awaiting data…</div>
+  <table id="timings" hidden>
+    <thead><tr><th>Phase</th><th>ms</th><th>Notes</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <pre id="summary"></pre>
+  <script>
+    const CLASS_FLAGS = { pandiagonal: 1, associative: 2, 'most-perfect': 4, ordinary: 8 };
+
+    function decodeFlags(flags) {
+      return Object.entries(CLASS_FLAGS).filter(([, bit]) => (flags & bit) !== 0).map(([k]) => k);
+    }
+
+    function validateV1(bundle, options = {}) {
+      const requireFull = options.requireFullRecordCount !== false;
+      const errors = [];
+      if (bundle.meta?.schemaVersion !== '1.0.0') errors.push('unsupported schemaVersion');
+      const sha = bundle.meta?.provenance?.sourceSha256;
+      if (!sha || !/^[a-f0-9]{64}$/.test(sha)) errors.push('missing or invalid sourceSha256');
+      if (bundle.meta?.provenance?.checksumPolicy !== 'sha256-of-source-csv-at-build') {
+        errors.push('checksumPolicy must be sha256-of-source-csv-at-build');
+      }
+      if (requireFull) {
+        if (!Array.isArray(bundle.records) || bundle.records.length !== 880) errors.push('record count != 880');
+      } else if (!Array.isArray(bundle.records) || bundle.records.length < 1) {
+        errors.push('records must be non-empty');
+      }
+      const seen = new Set();
+      for (const row of bundle.records || []) {
+        const id = row[0];
+        if (seen.has(id)) errors.push('duplicate ' + id);
+        seen.add(id);
+        const cells = row[1];
+        const sig = [...cells].sort((a, b) => a - b).join(',');
+        if (sig !== '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16') errors.push('perm fail ' + id);
+      }
+      return errors;
+    }
+
+    function normalizeV1(bundle) {
+      const fields = bundle.meta.recordLayout.fields;
+      return bundle.records.map((tuple) => {
+        const obj = {};
+        fields.forEach((key, i) => { obj[key] = tuple[i]; });
+        obj.classLabels = decodeFlags(obj.classFlags);
+        return obj;
+      });
+    }
+
+    function filterSort(records) {
+      return records
+        .filter((r) => r.dudeneyGroup === 6)
+        .sort((a, b) => b.energySummary[3] - a.energySummary[3])
+        .slice(0, 5);
+    }
+
+    function bench(label, fn) {
+      const t0 = performance.now();
+      const result = fn();
+      return { label, ms: +(performance.now() - t0).toFixed(3), result };
+    }
+
+    async function runOnText(text, sourceLabel) {
+      const rows = [];
+      const status = document.getElementById('status');
+      const tbody = document.querySelector('#timings tbody');
+      tbody.innerHTML = '';
+      document.getElementById('timings').hidden = false;
+
+      const parsed = bench('JSON.parse', () => JSON.parse(text));
+      rows.push({ ...parsed, notes: sourceLabel });
+      const errors = validateV1(parsed.result);
+      const normalized = bench('normalize', () => normalizeV1(parsed.result));
+      rows.push({ ...normalized, notes: '880 objects' });
+      const ui = bench('filter+sort+slice(5)', () => filterSort(normalized.result));
+      rows.push({ ...ui, notes: 'dudeneyGroup=6 by highOrder' });
+
+      for (const row of rows) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.label}</td><td>${row.ms}</td><td>${row.notes || ''}</td>`;
+        tbody.appendChild(tr);
+      }
+
+      const bytes = new TextEncoder().encode(text).length;
+      status.innerHTML = errors.length
+        ? `<span class="warn">Validation issues: ${errors.length}</span>`
+        : `<span class="ok">Validation passed (880 stable ids)</span>`;
+      document.getElementById('summary').textContent = JSON.stringify({
+        source: sourceLabel,
+        payloadBytes: bytes,
+        payloadKB: +(bytes / 1024).toFixed(1),
+        validationErrors: errors.slice(0, 5),
+        sourceSha256: parsed.result.meta?.provenance?.sourceSha256,
+        sampleTop: ui.result.map((r) => ({ id: r.id, highOrder: r.energySummary[3], classes: r.classLabels })),
+        renderingStrategy: {
+          parse: 'JSON.parse once at load',
+          memory: 'Prefer tuples; derive objects on demand',
+          diagram: 'Selected record cells[16] maps directly to 4x4 grid',
+          energyViz: 'energySummary[3] highOrder + coefficients[7] for bar chart',
+          localFile: 'Use <input type=file> when fetch blocked (file://)',
+          http: 'fetch(data/magic_moment_v1_880.json) with optional gzip upstream'
+        }
+      }, null, 2);
+    }
+
+    document.getElementById('filePicker').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      await runOnText(await file.text(), file.name);
+    });
+
+    document.getElementById('loadDefault').addEventListener('click', async () => {
+      try {
+        const response = await fetch('../data/magic_moment_v1_880.json');
+        if (!response.ok) throw new Error(response.statusText);
+        await runOnText(await response.text(), 'magic_moment_v1_880.json (HTTP)');
+      } catch (err) {
+        document.getElementById('status').textContent = 'HTTP load failed (expected under file://). Use file picker. ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

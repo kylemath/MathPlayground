@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S2 Interaction State Demo</title>
+  <link rel="stylesheet" href="interaction-demo.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <header>
+    <h1>S2 — Filter / Sort / Selection State Demo</h1>
+    <p>Executable shell for URL hash persistence and combined filter semantics.</p>
+    <p id="load-banner" class="banner" role="status" aria-live="polite"></p>
+  </header>
+
+  <main id="main" class="layout">
+    <section aria-labelledby="filters-h">
+      <h2 id="filters-h">Filters</h2>
+      <label>Search <input type="search" id="f-search" autocomplete="off"></label>
+      <fieldset>
+        <legend>Cohort</legend>
+        <label><input type="checkbox" name="cohort" value="magic" checked> magic</label>
+        <label><input type="checkbox" name="cohort" value="random"> random</label>
+        <label><input type="checkbox" name="cohort" value="swap-1"> swap-1</label>
+      </fieldset>
+      <label><input type="checkbox" id="f-magic"> Magic only</label>
+      <label>View
+        <select id="f-view">
+          <option value="table">Table</option>
+          <option value="cards">Cards</option>
+        </select>
+      </label>
+      <div class="button-row">
+        <button type="button" id="btn-reset">Reset filters</button>
+        <button type="button" id="btn-copy-link">Copy share link</button>
+      </div>
+      <p class="hash-display"><code id="hash-out"></code></p>
+    </section>
+
+    <section aria-labelledby="summary-h">
+      <h2 id="summary-h">Summary</h2>
+      <dl class="stats" id="summary-dl"></dl>
+    </section>
+
+    <section aria-labelledby="results-h">
+      <h2 id="results-h">Results</h2>
+      <p id="results-status" aria-live="polite"></p>
+      <div id="results-table-wrap">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th><button type="button" class="sort-btn" data-key="recordId">ID</button></th>
+              <th>Cohort</th>
+              <th><button type="button" class="sort-btn" data-key="spectralCentroid">Centroid</button></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+      <div id="results-cards" hidden></div>
+    </section>
+
+    <section aria-labelledby="inspect-h">
+      <h2 id="inspect-h">Inspect</h2>
+      <div id="inspect-panel" class="empty">No selection</div>
+    </section>
+
+    <section aria-labelledby="compare-h">
+      <h2 id="compare-h">Compare</h2>
+      <div id="compare-panel" class="empty">Select 2+ records to compare</div>
+    </section>
+  </main>
+
+  <footer>
+    <p><a href="acceptance-tests.html">Run acceptance tests in browser</a></p>
+  </footer>
+
+  <script src="state-model.js"></script>
+  <script src="interaction-demo.js"></script>
+</body>
+</html>

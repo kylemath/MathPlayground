@@ -1,0 +1,237 @@
+{
+  "timestamp": "2026-07-09T18:24:52.252Z",
+  "pass": 45,
+  "fail": 0,
+  "total": 45,
+  "payload": {
+    "sampleBytes": 38286,
+    "embeddedBytes": 20019
+  },
+  "results": [
+    {
+      "name": "file exists: index.html",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: styles.css",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: app.js",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: data-loader.js",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: diagram.js",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: energy-viz.js",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: embedded-data.js",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "file exists: sample-data.json",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "HTML contract: main landmark",
+      "ok": true,
+      "detail": "id=\"main-content\""
+    },
+    {
+      "name": "HTML contract: diagram grid role",
+      "ok": true,
+      "detail": "role=\"grid\""
+    },
+    {
+      "name": "HTML contract: square diagram container",
+      "ok": true,
+      "detail": "id=\"square-diagram\""
+    },
+    {
+      "name": "HTML contract: energy viz container",
+      "ok": true,
+      "detail": "id=\"energy-viz\""
+    },
+    {
+      "name": "HTML contract: record table",
+      "ok": true,
+      "detail": "id=\"record-table\""
+    },
+    {
+      "name": "HTML contract: live region",
+      "ok": true,
+      "detail": "aria-live"
+    },
+    {
+      "name": "HTML contract: skip link",
+      "ok": true,
+      "detail": "skip-link"
+    },
+    {
+      "name": "HTML lang attribute",
+      "ok": true,
+      "detail": "/<html lang=\"en\">/"
+    },
+    {
+      "name": "external CSS only",
+      "ok": true,
+      "detail": "/<link rel=\"stylesheet\" href=\"styles\\.css\">/"
+    },
+    {
+      "name": "embedded fallback script",
+      "ok": true,
+      "detail": "/<script src=\"embedded-data\\.js\"><\\/script>/"
+    },
+    {
+      "name": "CSS reduced motion",
+      "ok": true,
+      "detail": "prefers-reduced-motion"
+    },
+    {
+      "name": "CSS focus-visible",
+      "ok": true,
+      "detail": ":focus-visible"
+    },
+    {
+      "name": "CSS visually hidden utility",
+      "ok": true,
+      "detail": ".visually-hidden"
+    },
+    {
+      "name": "CSS color scheme",
+      "ok": true,
+      "detail": "color-scheme: dark"
+    },
+    {
+      "name": "RecordDataLoader export",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "RecordDataLoader validatePayload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "embedded payload present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "embedded payload validates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "SquareDiagram export",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "EnergyViz export",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mode order count (4*4-1)",
+      "ok": true,
+      "detail": "expected 15, got 15"
+    },
+    {
+      "name": "sample-data schemaVersion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sample record count",
+      "ok": true,
+      "detail": "expected 20, got 20"
+    },
+    {
+      "name": "sample record cells length 16",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "HTTP fetch sample-data.json",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP JSON parse",
+      "ok": true,
+      "detail": "20 records"
+    },
+    {
+      "name": "HTTP sub_S3: smoke-test.html",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "smoke-test.html script refs",
+      "ok": true,
+      "detail": "../prototype/embedded-data.js, ../prototype/data-loader.js, ../prototype/diagram.js, ../prototype/energy-viz.js"
+    },
+    {
+      "name": "HTTP sub_S3: /prototype/embedded-data.js",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP sub_S3: /prototype/data-loader.js",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP sub_S3: /prototype/diagram.js",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP sub_S3: /prototype/energy-viz.js",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP sub_S3: prototype/index.html",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP sub_S3: prototype/sample-data.json",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP prototype-only: index.html",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "HTTP prototype-only: sibling smoke-test unreachable",
+      "ok": true,
+      "detail": "status 404 (serve sub_S3 root instead)"
+    },
+    {
+      "name": "file:// note documented",
+      "ok": true,
+      "detail": "fetch blocked for file:// in browsers; embedded-data.js provides fallback"
+    }
+  ]
+}

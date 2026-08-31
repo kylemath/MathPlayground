@@ -1,0 +1,214 @@
+{
+  "basis": {
+    "coordinates": [
+      -1.5,
+      -0.5,
+      0.5,
+      1.5
+    ],
+    "basis_1d": [
+      [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      [
+        -0.6708203932499369,
+        -0.22360679774997896,
+        0.22360679774997896,
+        0.6708203932499369
+      ],
+      [
+        0.5,
+        -0.5,
+        -0.5,
+        0.5
+      ],
+      [
+        -0.2236067977499785,
+        0.670820393249937,
+        -0.670820393249937,
+        0.2236067977499785
+      ]
+    ],
+    "gram_1d": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        -6.661338147750939e-16
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        -6.661338147750939e-16,
+        0.0,
+        1.0
+      ]
+    ],
+    "orthonormal_1d": true,
+    "orthonormal_2d_tensor": true,
+    "basis_matches_analysis_json": true,
+    "max_1d_gram_error": 6.661338147750939e-16
+  },
+  "height_energy_constant_340": true,
+  "sample_height_energies": {
+    "M001": 340.0,
+    "M042": 340.0,
+    "M880": 340.0,
+    "R001": 340.0,
+    "R880": 340.0,
+    "S1-001": 340.0,
+    "S2-042": 340.0,
+    "S3-880": 340.0
+  },
+  "sample_records": [
+    {
+      "recordId": "M001",
+      "height_energy": 340.0,
+      "coeff_energy": 340.00000000000006,
+      "parseval_ok": true,
+      "max_reconstruction_error": 4.440892098500626e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 339.99999999999994,
+      "shipped_axial": 0.0,
+      "recomputed_axial": 2.0384042531394504e-30,
+      "shipped_interaction": 340.0,
+      "recomputed_interaction": 340.00000000000006,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.00000000000006
+    },
+    {
+      "recordId": "M042",
+      "height_energy": 340.0,
+      "coeff_energy": 340.00000000000017,
+      "parseval_ok": true,
+      "max_reconstruction_error": 6.217248937900877e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 340.0,
+      "shipped_axial": 0.0,
+      "recomputed_axial": 2.4775162804597402e-30,
+      "shipped_interaction": 340.0,
+      "recomputed_interaction": 340.00000000000017,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.00000000000017
+    },
+    {
+      "recordId": "M880",
+      "height_energy": 340.0,
+      "coeff_energy": 340.0,
+      "parseval_ok": true,
+      "max_reconstruction_error": 8.215650382226158e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 340.0,
+      "shipped_axial": 0.0,
+      "recomputed_axial": 2.69630192214213e-31,
+      "shipped_interaction": 340.0,
+      "recomputed_interaction": 340.0,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.0
+    },
+    {
+      "recordId": "R001",
+      "height_energy": 340.0,
+      "coeff_energy": 340.0,
+      "parseval_ok": true,
+      "max_reconstruction_error": 7.105427357601002e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 340.0,
+      "shipped_axial": 212.0,
+      "recomputed_axial": 212.00000000000009,
+      "shipped_interaction": 128.0,
+      "recomputed_interaction": 127.99999999999993,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.0
+    },
+    {
+      "recordId": "R880",
+      "height_energy": 340.0,
+      "coeff_energy": 339.99999999999994,
+      "parseval_ok": true,
+      "max_reconstruction_error": 5.329070518200751e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 340.0,
+      "shipped_axial": 79.0,
+      "recomputed_axial": 79.0,
+      "shipped_interaction": 261.0,
+      "recomputed_interaction": 261.0,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.0
+    },
+    {
+      "recordId": "S1-001",
+      "height_energy": 340.0,
+      "coeff_energy": 339.99999999999994,
+      "parseval_ok": true,
+      "max_reconstruction_error": 5.329070518200751e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 339.99999999999994,
+      "shipped_axial": 25.0,
+      "recomputed_axial": 25.000000000000004,
+      "shipped_interaction": 315.0,
+      "recomputed_interaction": 315.0,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.0
+    },
+    {
+      "recordId": "S2-042",
+      "height_energy": 340.0,
+      "coeff_energy": 340.00000000000017,
+      "parseval_ok": true,
+      "max_reconstruction_error": 7.216449660063518e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 340.0,
+      "shipped_axial": 37.0,
+      "recomputed_axial": 37.0,
+      "shipped_interaction": 303.0,
+      "recomputed_interaction": 303.00000000000017,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 340.00000000000017
+    },
+    {
+      "recordId": "S3-880",
+      "height_energy": 340.0,
+      "coeff_energy": 340.0,
+      "parseval_ok": true,
+      "max_reconstruction_error": 9.103828801926284e-15,
+      "m00_coefficient": 0.0,
+      "m00_energy": 0.0,
+      "shipped_mode_energy_sum": 340.0,
+      "shipped_axial": 86.0,
+      "recomputed_axial": 85.99999999999999,
+      "shipped_interaction": 254.0,
+      "recomputed_interaction": 253.99999999999994,
+      "coeff_matches_shipped": true,
+      "axial_plus_interaction_plus_m00": 339.99999999999994
+    }
+  ],
+  "magic_axial_audit": {
+    "magic_count": 880,
+    "nonzero_axial_count": 0,
+    "all_magic_axial_zero": true,
+    "sample_nonzero": []
+  },
+  "metadata_height_energy": 340.0
+}

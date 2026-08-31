@@ -1,0 +1,88 @@
+{
+  "analysis_crosscheck": {
+    "analysis_dudeneyCounts": {
+      "1": 48,
+      "10": 56,
+      "11": 8,
+      "12": 8,
+      "2": 48,
+      "3": 48,
+      "4": 96,
+      "5": 96,
+      "6": 304,
+      "7": 56,
+      "8": 56,
+      "9": 56
+    },
+    "analysis_expandedOrientedCount": 7040,
+    "analysis_sourceCount": 880,
+    "cohort_counts": {
+      "magic": 880,
+      "random": 880,
+      "swap-1": 880,
+      "swap-2": 880,
+      "swap-3": 880
+    },
+    "cohort_record_total": 4400,
+    "dudeney_matches_csv": false,
+    "expanded_is_8x_source": true,
+    "expected_cohort_total": 4400,
+    "sourceCount_matches_csv": true
+  },
+  "csv_audit": {
+    "all_magic": true,
+    "all_rows_frenicle_canonical": 880,
+    "complement_declarations_consistent": 880,
+    "d4_orbit_size_distribution": {
+      "8": 880
+    },
+    "dudeney_group_distribution": {
+      "1": 48,
+      "2": 48,
+      "3": 48,
+      "4": 96,
+      "5": 96,
+      "6": 304,
+      "7": 56,
+      "8": 56,
+      "9": 56,
+      "10": 56,
+      "11": 8,
+      "12": 8
+    },
+    "dudeney_label_mismatches": [],
+    "ids_1_to_880": true,
+    "oriented_union_count": 7040,
+    "record_count": 880,
+    "source": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+    "structural_property_counts": {
+      "associative": 48,
+      "pandiagonal": 48,
+      "semi_pandiagonal": 48
+    },
+    "unique_d4_canonical": 880,
+    "unique_literal": 880
+  },
+  "enumeration": {
+    "csv_frenicle_set_matches_enumeration": false,
+    "csv_missing_from_enum": 880,
+    "enum_extra_not_in_csv": 208,
+    "enumerated_frenicle_count": 208,
+    "enumerated_oriented_via_d4_expansion": 1664,
+    "enumerated_unique_frenicle": 208,
+    "orbit_sizes_on_enumerated": {
+      "8": 208
+    }
+  },
+  "provenance": {
+    "fetch_script_present": true,
+    "local_csv_bytes": 49409,
+    "local_csv_exists": true,
+    "source_urls_in_fetch_script": [
+      "http://www.recmath.org/Magic%20Squares/order4lista.htm",
+      "http://www.recmath.org/Magic%20Squares/order4listb.htm",
+      "http://www.recmath.org/Magic%20Squares/order4listc.htm",
+      "http://www.recmath.org/Magic%20Squares/order4listd.htm"
+    ]
+  }
+}

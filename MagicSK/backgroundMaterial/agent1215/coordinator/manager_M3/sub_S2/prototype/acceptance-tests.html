@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>S2 Acceptance Tests</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0d1117; color: #e6edf3; padding: 1.5rem; }
+    .pass { color: #3fb950; }
+    .fail { color: #f85149; }
+    li { margin: 0.35rem 0; }
+  </style>
+</head>
+<body>
+  <h1>S2 Acceptance Tests</h1>
+  <p id="summary"></p>
+  <ul id="list"></ul>
+  <script src="state-model.js"></script>
+  <script>
+    // Browser shim: load test runner logic inline
+    const S = window.MomentExplorerState;
+    const FIXTURE = [
+      { recordId: "M001", sourceId: 1, cohort: "magic", swaps: 0, dudeneyGroup: 6, classes: ["ordinary"], isMagic: true, spectralCentroid: 3.5, interactionEnergy: 340, lineDefectEnergy: 0, lowOrderEnergy: 230, highOrderEnergy: 110 },
+      { recordId: "M002", sourceId: 2, cohort: "magic", swaps: 0, dudeneyGroup: 6, classes: ["ordinary"], isMagic: true, spectralCentroid: 3.6, interactionEnergy: 340, lineDefectEnergy: 0, lowOrderEnergy: 220, highOrderEnergy: 120 },
+      { recordId: "M003", sourceId: 3, cohort: "magic", swaps: 0, dudeneyGroup: 12, classes: ["ordinary"], isMagic: true, spectralCentroid: 3.4, interactionEnergy: 340, lineDefectEnergy: 0, lowOrderEnergy: 210, highOrderEnergy: 130 },
+      { recordId: "R001", sourceId: 1, cohort: "random", swaps: 0, dudeneyGroup: 6, classes: ["ordinary"], isMagic: false, spectralCentroid: 4.0, interactionEnergy: 300, lineDefectEnergy: 500, lowOrderEnergy: 60, highOrderEnergy: 240 },
+      { recordId: "S101", sourceId: 1, cohort: "swap-1", swaps: 1, dudeneyGroup: 6, classes: ["ordinary"], isMagic: false, spectralCentroid: 3.9, interactionEnergy: 310, lineDefectEnergy: 100, lowOrderEnergy: 80, highOrderEnergy: 230 },
+    ];
+
+    function assert(c, m) { if (!c) throw new Error(m); }
+
+    const tests = [
+      ["combined filters AND", () => {
+        const f = S.applyFilters(FIXTURE, { ...S.DEFAULT_FILTERS, cohorts: ["magic"], magicOnly: true });
+        assert(f.length === 3, "expected 3");
+      }],
+      ["compareValues null asc/desc", () => {
+        assert(S.compareValues(null, 1, "asc") > 0, "null last asc");
+        assert(S.compareValues(null, 1, "desc") < 0, "null first desc");
+      }],
+      ["range URL round-trip", () => {
+        let st = S.setLoadStatus(S.DEFAULT_STATE, "ready", { records: FIXTURE });
+        st = S.setFilters(st, { ranges: { spectralCentroid: { min: 3.5, max: 3.9 } } });
+        const r = S.hydrateFromHash(st, S.serializeHash(st));
+        assert(r.filters.ranges.spectralCentroid.min === 3.5, "range min");
+      }],
+      ["explicit recordId sort", () => {
+        const keys = S.ensureTiebreak([{ key: "recordId", dir: "desc" }]);
+        assert(keys.length === 1, "no tie-break append");
+      }],
+      ["stable sort secondary key", () => {
+        const s = S.stableMultiSort(FIXTURE.slice(0, 3), [{ key: "dudeneyGroup", dir: "asc" }, { key: "spectralCentroid", dir: "desc" }]);
+        assert(s[0].recordId === "M002", "M002 higher centroid first in group 6");
+      }],
+      ["compare max 4", () => {
+        let st = S.setLoadStatus(S.DEFAULT_STATE, "ready", { records: FIXTURE });
+        let err = null;
+        ["M001","M002","M003","R001","S101"].forEach(id => {
+          const r = S.toggleCompare(st, id); st = r.state; if (r.error) err = r.error;
+        });
+        assert(err === "compare_limit", "limit");
+      }],
+      ["hash round-trip", () => {
+        let st = S.setLoadStatus(S.DEFAULT_STATE, "ready", { records: FIXTURE });
+        st = S.setFilters(st, { cohorts: ["magic"], search: "M00" });
+        st = S.setPrimarySelection(st, "M002");
+        const h = S.serializeHash(st);
+        const r = S.hydrateFromHash(st, h);
+        assert(r.selection.primary === "M002", "sel");
+      }],
+      ["empty status", () => {
+        let st = S.setLoadStatus(S.DEFAULT_STATE, "ready", { records: FIXTURE });
+        st = S.setFilters(st, { search: "ZZZ" });
+        assert(S.uiStatus(st).kind === "empty", "empty");
+      }],
+    ];
+
+    const list = document.getElementById("list");
+    let passed = 0;
+    tests.forEach(([name, fn]) => {
+      const li = document.createElement("li");
+      try { fn(); passed++; li.className = "pass"; li.textContent = `PASS — ${name}`; }
+      catch (e) { li.className = "fail"; li.textContent = `FAIL — ${name}: ${e.message}`; }
+      list.appendChild(li);
+    });
+    document.getElementById("summary").textContent = `${passed}/${tests.length} passed`;
+  </script>
+</body>
+</html>

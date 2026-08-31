@@ -1,0 +1,32 @@
+{
+  "index_script_refs": {
+    "script_refs": [
+      "data/analysis-data.js",
+      "moments.js",
+      "app.js"
+    ],
+    "missing_refs": []
+  },
+  "inline_load_simulation": {
+    "wrapper_bytes": 4405251,
+    "metadata_keys_ok": true,
+    "record_keys_ok": true,
+    "record_count": 4400,
+    "app_expects_window_MAGIC_ANALYSIS": true,
+    "analysis_data_js_present_in_repo": true
+  },
+  "js_syntax_checks": [
+    {
+      "file": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/moments.js",
+      "command": "node --check /Users/kylemathewson/MagicSK/MagicMomentExplorer/moments.js",
+      "ok": true,
+      "stderr": ""
+    },
+    {
+      "file": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/app.js",
+      "command": "node --check /Users/kylemathewson/MagicSK/MagicMomentExplorer/app.js",
+      "ok": true,
+      "stderr": ""
+    }
+  ]
+}

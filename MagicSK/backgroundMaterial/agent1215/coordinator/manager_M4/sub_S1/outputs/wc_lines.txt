@@ -1,0 +1,3 @@
+     881 /Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv
+    4401 /Users/kylemathewson/MagicSK/MagicMomentExplorer/data/analysis.csv
+    5282 total

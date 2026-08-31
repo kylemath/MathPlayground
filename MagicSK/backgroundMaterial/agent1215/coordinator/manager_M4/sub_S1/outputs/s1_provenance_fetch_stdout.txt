@@ -1,0 +1,13 @@
+{
+  "pages_fetched": 4,
+  "records_per_page": {
+    "http://www.recmath.org/Magic%20Squares/order4lista.htm": 200,
+    "http://www.recmath.org/Magic%20Squares/order4listb.htm": 200,
+    "http://www.recmath.org/Magic%20Squares/order4listc.htm": 200,
+    "http://www.recmath.org/Magic%20Squares/order4listd.htm": 280
+  },
+  "total_parsed_records": 880,
+  "expected": 880,
+  "matches_expected": true,
+  "errors": []
+}

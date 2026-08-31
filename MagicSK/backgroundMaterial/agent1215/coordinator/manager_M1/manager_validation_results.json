@@ -1,0 +1,26 @@
+{
+  "algorithm": "sum-34 row masks; first three rows force fourth by columns",
+  "all_valid": true,
+  "canonical_sha256": "1197628441f1fe0e5af38b85dd8eb17d0c72bf037e41fe44db219fe90de4f576",
+  "complement_orbit_count_on_d4_representatives": 616,
+  "counts_are_observed": true,
+  "d4_representative_count": 880,
+  "enumeration_seconds": 78.687132,
+  "orbit_size_histogram": {
+    "8": 880
+  },
+  "oriented_count": 7040,
+  "oriented_sha256": "6c034e5a28a21d7c9d7c61405ae7b1d6920c94d65fd1f182b17201ac656ee3ad",
+  "panmagic_equals_most_perfect_at_order_4": true,
+  "property_counts_on_d4_representatives": {
+    "associative": 48,
+    "associative_and_panmagic": 0,
+    "complement_fixed_mod_d4": 352,
+    "most_perfect": 48,
+    "panmagic": 48
+  },
+  "stabilizer_size_histogram": {
+    "1": 880
+  },
+  "unique_oriented_count": 7040
+}

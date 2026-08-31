@@ -1,0 +1,61 @@
+{
+  "csv_audit": {
+    "broken_diagonal_count_histogram": {
+      "2": 360,
+      "3": 8,
+      "4": 464,
+      "8": 48
+    },
+    "complement_orbit_fixed_points": 352,
+    "complement_orbit_total": 616,
+    "complement_orbit_two_cycles": 264,
+    "complement_pair_orbit_count": 616,
+    "complement_pairs_of_size_1": 352,
+    "complement_pairs_of_size_2": 264,
+    "d4_canonical_count": 880,
+    "d4_expansion": {
+      "all_orbit_sizes_8": true,
+      "all_records_frenicle_standard": true,
+      "csv_records": 880,
+      "expanded_oriented_count": 7040,
+      "expected_oriented_if_all_orbits_8": 7040
+    },
+    "d4_orbit_size_distribution": {
+      "8": 880
+    },
+    "dudeney_group_distribution": {
+      "1": 48,
+      "2": 48,
+      "3": 48,
+      "4": 96,
+      "5": 96,
+      "6": 304,
+      "7": 56,
+      "8": 56,
+      "9": 56,
+      "10": 56,
+      "11": 8,
+      "12": 8
+    },
+    "dudeney_label_mismatches": [],
+    "oriented_count": 880,
+    "property_counts_on_d4_canonicals": {
+      "associative": 48,
+      "bent_semi_pandiagonal": 48,
+      "compact_2x2": 48,
+      "frenicle_standard": 880,
+      "magic": 880,
+      "most_perfect": 48,
+      "pandiagonal": 48,
+      "self_complementary": 352
+    },
+    "record_count": 880,
+    "self_complementary_d4_canonicals": 352,
+    "source_csv": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+    "transform_identity_checks": {
+      "associative_implies_complement_is_rotate180": true,
+      "complement_commutes_with_d4_all_records": true,
+      "complement_preserves_associative_all_records": true
+    }
+  }
+}

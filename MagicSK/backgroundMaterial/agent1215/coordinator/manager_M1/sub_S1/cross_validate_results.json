@@ -1,0 +1,16 @@
+{
+  "all_normal_magic": true,
+  "d4_orbit_size_distribution_among_dataset_rows": {
+    "8": 880
+  },
+  "oriented_union_count_from_dataset_rows": 7040,
+  "product_check_rows_times_8": true,
+  "record_count": 880,
+  "rows_already_lexicographically_canonical": 880,
+  "source": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+  "stabilizer_size_distribution_among_dataset_rows": {
+    "1": 880
+  },
+  "unique_d4_canonical_grids": 880,
+  "unique_literal_grids": 880
+}

@@ -1,0 +1,18 @@
+{
+  "all_ingested_are_canonical": 880,
+  "all_ingested_in_enum_oriented_union": true,
+  "canonical_sets_match": true,
+  "enum_only_count": 0,
+  "enumeration": {
+    "canonical_checksum_sha256": "1197628441f1fe0e5af38b85dd8eb17d0c72bf037e41fe44db219fe90de4f576",
+    "canonical_count": 880,
+    "oriented_count": 7040
+  },
+  "ingest_only_count": 0,
+  "ingestion": {
+    "canonical_checksum_sha256": "1197628441f1fe0e5af38b85dd8eb17d0c72bf037e41fe44db219fe90de4f576",
+    "record_count": 880,
+    "source": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv"
+  },
+  "mode": "crosscheck"
+}

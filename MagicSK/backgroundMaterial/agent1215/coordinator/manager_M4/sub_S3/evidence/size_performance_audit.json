@@ -1,0 +1,43 @@
+{
+  "file_sizes": {
+    "magic_squares_880.csv": {
+      "bytes": 49409,
+      "human": "48.25 KB",
+      "gzip_bytes": 13413,
+      "gzip_human": "13.10 KB"
+    },
+    "analysis.csv": {
+      "bytes": 823879,
+      "human": "804.57 KB",
+      "gzip_bytes": 230091,
+      "gzip_human": "224.70 KB"
+    },
+    "analysis.json": {
+      "bytes": 4391099,
+      "human": "4.19 MB",
+      "gzip_bytes": 643794,
+      "gzip_human": "628.71 KB"
+    },
+    "analysis-data.js (projected)": {
+      "bytes": 4391123,
+      "human": "4.19 MB",
+      "gzip_bytes": 643835,
+      "gzip_human": "628.75 KB"
+    }
+  },
+  "record_count": 4400,
+  "timing_python_proxy_ms": {
+    "json_parse": 35.43,
+    "filter_magic_group6": 0.59,
+    "sort_by_spectral_centroid": 0.98
+  },
+  "compact_schema_no_coefficients_bytes": 1416893,
+  "compact_schema_human": "1.35 MB",
+  "compact_gzip_human": "194.96 KB",
+  "feasibility_notes": [
+    "Full 4.4MB JSON inline in analysis-data.js is viable on modern desktop browsers over HTTP.",
+    "file:// loading of multi-MB fetch targets is unreliable; inline script or local server required.",
+    "Pagination (index.html uses page controls) recommended for 4400-row DOM tables.",
+    "Dropping coefficients saves roughly half payload if detail view recomputes or lazy-loads."
+  ]
+}

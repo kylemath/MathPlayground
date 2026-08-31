@@ -1,0 +1,134 @@
+{
+  "record_count": 4400,
+  "cohort_counts": {
+    "magic": 880,
+    "random": 880,
+    "swap-1": 880,
+    "swap-2": 880,
+    "swap-3": 880
+  },
+  "metadata_fields_present": [
+    "basis",
+    "cohortSummary",
+    "coordinates",
+    "dudeneyCounts",
+    "expandedOrientedCount",
+    "groupLabels",
+    "heightEnergy",
+    "magicSum",
+    "order",
+    "randomCount",
+    "seed",
+    "sourceCount"
+  ],
+  "metadata_issues": [
+    "missing:schemaVersion (M3 prototype expects top-level)"
+  ],
+  "records_with_schema_issues": 0,
+  "first_bad_records": [],
+  "m3_schema_version": "0.1.0-prototype",
+  "m3_cohort_values_in_sample": [
+    "magic",
+    "swap-1"
+  ],
+  "app_cohort_values": [
+    "magic",
+    "random",
+    "swap-1",
+    "swap-2",
+    "swap-3"
+  ],
+  "m3_overlap_comparisons": [
+    {
+      "app_recordId": "M001",
+      "m3_recordId": "M001",
+      "shared_field_count": 24,
+      "app_only_fields": [],
+      "m3_only_fields": [],
+      "cohort_app": "magic",
+      "cohort_m3": "magic",
+      "cells_match": true,
+      "interaction_match": true
+    },
+    {
+      "app_recordId": "M002",
+      "m3_recordId": "M002",
+      "shared_field_count": 24,
+      "app_only_fields": [],
+      "m3_only_fields": [],
+      "cohort_app": "magic",
+      "cohort_m3": "magic",
+      "cells_match": true,
+      "interaction_match": true
+    },
+    {
+      "app_recordId": "M003",
+      "m3_recordId": "M003",
+      "shared_field_count": 24,
+      "app_only_fields": [],
+      "m3_only_fields": [],
+      "cohort_app": "magic",
+      "cohort_m3": "magic",
+      "cells_match": true,
+      "interaction_match": true
+    }
+  ],
+  "source_csv_fields": [
+    "id",
+    "dudeney_group",
+    "group_orientation",
+    "cell_1",
+    "cell_2",
+    "cell_3",
+    "cell_4",
+    "cell_5",
+    "cell_6",
+    "cell_7",
+    "cell_8",
+    "cell_9",
+    "cell_10",
+    "cell_11",
+    "cell_12",
+    "cell_13",
+    "cell_14",
+    "cell_15",
+    "cell_16",
+    "complement_pair",
+    "complement_id"
+  ],
+  "browser_file_status": {
+    "index.html": true,
+    "styles.css": true,
+    "app.js": true,
+    "moments.js": true,
+    "data/analysis-data.js": false,
+    "data/analysis.json": true,
+    "README.md": true
+  },
+  "sample_record_field_types": {
+    "axialEnergy": "float",
+    "cells": "list(len=16)",
+    "classes": "list(len=1)",
+    "coefficients": "dict(keys=15)",
+    "cohort": "str",
+    "complementId": "int",
+    "complementPair": "int",
+    "d4OrbitSize": "int",
+    "degreeEnergy": "dict(keys=5)",
+    "dudeneyGroup": "int",
+    "dudeneyLabel": "str",
+    "groupOrientation": "int",
+    "highOrderEnergy": "float",
+    "interactionEnergy": "float",
+    "isMagic": "bool",
+    "lineDefectEnergy": "int",
+    "lineSums": "dict(keys=3)",
+    "lowOrderEnergy": "float",
+    "modeEnergy": "dict(keys=15)",
+    "recordId": "str",
+    "selfComplementary": "bool",
+    "sourceId": "int",
+    "spectralCentroid": "float",
+    "swaps": "int"
+  }
+}

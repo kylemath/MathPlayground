@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-07-09T18:27:33.050Z",
+  "environment": {
+    "node": "v20.20.0",
+    "platform": "darwin"
+  },
+  "files": {
+    "magic_moment_v1_880.json": 152039,
+    "magic_moment_v1_880.json.gz": 32482,
+    "magic_moment_v1_example.json": 5325,
+    "compressionRatio": 4.68
+  },
+  "timings": [
+    {
+      "phase": "json.parse(880 records)",
+      "ms": 1.098
+    },
+    {
+      "phase": "normalize tuples -> objects",
+      "ms": 0.828
+    },
+    {
+      "phase": "filter+sort+top10 render prep",
+      "ms": 0.216,
+      "filteredCount": 304
+    },
+    {
+      "phase": "gunzip + parse",
+      "ms": 4.917
+    }
+  ],
+  "validation": {
+    "errorCount": 0,
+    "sampleErrors": [],
+    "sourceSha256": "86e36c20faf36514985cd9c1e886a01aba54fd88bc3038f33b06ff783781b8b2",
+    "exampleErrorCount": 0,
+    "exampleSourceSha256": "86e36c20faf36514985cd9c1e886a01aba54fd88bc3038f33b06ff783781b8b2",
+    "exampleMatchesFull": true
+  },
+  "strategy": {
+    "parsing": "Single JSON.parse on load; lazy normalize per view if needed.",
+    "rendering": "Keep tuple form in memory; materialize objects on filter/sort only.",
+    "browserConstraints": "152 KB raw fits main-thread parse <50 ms on modern hardware; gzip ~32 KB for HTTP.",
+    "localFileVsHttp": "file:// works with fetch-free XHR/FileReader; HTTP enables gzip Content-Encoding.",
+    "stableIds": "Use tuple[0] as primary key; never array index.",
+    "migration": "Gate on meta.schemaVersion; reject unknown versions with user-facing error state."
+  },
+  "comparisons": {
+    "fullAnalysisJsonBytes": 4391099,
+    "compactReductionFactor": 28.88
+  }
+}

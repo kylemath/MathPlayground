@@ -1,0 +1,331 @@
+{
+  "meta": {
+    "schemaVersion": "1.0.0",
+    "bundleKind": "magic-moment",
+    "order": 4,
+    "magicSum": 34,
+    "recordCount": 880,
+    "orientedUnionCount": 7040,
+    "idRange": [
+      1,
+      880
+    ],
+    "idPolicy": "stable-source-id-1-based",
+    "modes": [
+      "M01",
+      "M02",
+      "M03",
+      "M10",
+      "M11",
+      "M12",
+      "M13",
+      "M20",
+      "M21",
+      "M22",
+      "M23",
+      "M30",
+      "M31",
+      "M32",
+      "M33"
+    ],
+    "modeCount": 15,
+    "classFlags": {
+      "pandiagonal": 1,
+      "associative": 2,
+      "most-perfect": 4,
+      "ordinary": 8
+    },
+    "recordLayout": {
+      "type": "tuple",
+      "fields": [
+        "id",
+        "cells",
+        "dudeneyGroup",
+        "groupOrientation",
+        "complementPair",
+        "complementId",
+        "classFlags",
+        "coefficients",
+        "energySummary"
+      ],
+      "energySummaryFields": [
+        "axial",
+        "interaction",
+        "lowOrder",
+        "highOrder",
+        "spectralCentroid"
+      ]
+    },
+    "coordinates": [
+      -1.5,
+      -0.5,
+      0.5,
+      1.5
+    ],
+    "basisRef": "orthonormal-monomials-gram-schmidt-v1",
+    "heightEnergy": 340.0,
+    "controlSeed": 20260709,
+    "provenance": {
+      "sourceArtifact": "magic_squares_880.csv",
+      "sourceSha256": "86e36c20faf36514985cd9c1e886a01aba54fd88bc3038f33b06ff783781b8b2",
+      "pipeline": "analyze.py",
+      "generatedAt": "2026-07-09T00:00:00Z",
+      "checksumPolicy": "sha256-of-source-csv-at-build",
+      "reproducibility": {
+        "randomControlCount": 880,
+        "swapPerturbationCounts": [
+          1,
+          2,
+          3
+        ],
+        "swapPolicy": "sequential-distinct-pairs-seeded"
+      }
+    }
+  },
+  "records": [
+    [
+      1,
+      [
+        1,
+        2,
+        15,
+        16,
+        12,
+        14,
+        3,
+        5,
+        13,
+        7,
+        10,
+        4,
+        8,
+        11,
+        6,
+        9
+      ],
+      6,
+      22,
+      999,
+      1,
+      8,
+      [
+        -0.0,
+        0.0,
+        0.0,
+        -0.0,
+        -8.6,
+        12.522,
+        -4.2,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        3.8,
+        -1.7889,
+        8.6
+      ],
+      [
+        0.0,
+        340.0,
+        230.76,
+        109.24,
+        3.5482
+      ]
+    ],
+    [
+      2,
+      [
+        1,
+        2,
+        15,
+        16,
+        13,
+        14,
+        3,
+        4,
+        12,
+        7,
+        10,
+        5,
+        8,
+        11,
+        6,
+        9
+      ],
+      6,
+      22,
+      999,
+      2,
+      8,
+      [
+        -0.0,
+        0.0,
+        0.0,
+        -0.0,
+        -8.0,
+        12.522,
+        -6.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0,
+        -1.7889,
+        8.0
+      ],
+      [
+        0.0,
+        340.0,
+        220.8,
+        119.2,
+        3.5482
+      ]
+    ],
+    [
+      3,
+      [
+        1,
+        2,
+        16,
+        15,
+        13,
+        14,
+        4,
+        3,
+        12,
+        7,
+        9,
+        6,
+        8,
+        11,
+        5,
+        10
+      ],
+      12,
+      2,
+      1,
+      209,
+      8,
+      [
+        -0.0,
+        0.0,
+        -0.0,
+        -0.0,
+        -7.2,
+        12.522,
+        -6.4,
+        0.0,
+        1.7889,
+        0.0,
+        -0.8944,
+        -0.0,
+        5.6,
+        -1.7889,
+        7.2
+      ],
+      [
+        0.0,
+        340.0,
+        211.84,
+        128.16,
+        3.5412
+      ]
+    ]
+  ],
+  "controlAggregates": [
+    {
+      "cohort": "random",
+      "swaps": 0,
+      "interactionEnergy": {
+        "n": 880,
+        "mean": 203.55,
+        "min": 27.5,
+        "max": 330.5
+      },
+      "highOrderEnergy": {
+        "n": 880,
+        "mean": 136.7,
+        "min": 10.7,
+        "max": 301.16
+      },
+      "lowOrderEnergy": {
+        "n": 880,
+        "mean": 66.85,
+        "min": 0.14,
+        "max": 286.14
+      },
+      "isMagicRate": 0.0
+    },
+    {
+      "cohort": "swap-1",
+      "swaps": 1,
+      "interactionEnergy": {
+        "n": 880,
+        "mean": 307.18,
+        "min": 144.0,
+        "max": 339.5
+      },
+      "highOrderEnergy": {
+        "n": 880,
+        "mean": 195.2,
+        "min": 12.64,
+        "max": 338.64
+      },
+      "lowOrderEnergy": {
+        "n": 880,
+        "mean": 111.98,
+        "min": 0.86,
+        "max": 323.36
+      },
+      "isMagicRate": 0.0
+    },
+    {
+      "cohort": "swap-2",
+      "swaps": 2,
+      "interactionEnergy": {
+        "n": 880,
+        "mean": 276.43,
+        "min": 98.0,
+        "max": 340.0
+      },
+      "highOrderEnergy": {
+        "n": 880,
+        "mean": 178.25,
+        "min": 13.76,
+        "max": 337.59
+      },
+      "lowOrderEnergy": {
+        "n": 880,
+        "mean": 98.18,
+        "min": 0.41,
+        "max": 306.05
+      },
+      "isMagicRate": 0.0
+    },
+    {
+      "cohort": "swap-3",
+      "swaps": 3,
+      "interactionEnergy": {
+        "n": 880,
+        "mean": 255.36,
+        "min": 41.0,
+        "max": 339.0
+      },
+      "highOrderEnergy": {
+        "n": 880,
+        "mean": 164.42,
+        "min": 15.8,
+        "max": 324.95
+      },
+      "lowOrderEnergy": {
+        "n": 880,
+        "mean": 90.94,
+        "min": 0.14,
+        "max": 292.86
+      },
+      "isMagicRate": 0.0
+    }
+  ]
+}

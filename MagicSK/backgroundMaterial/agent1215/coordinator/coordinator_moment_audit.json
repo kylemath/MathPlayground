@@ -1,0 +1,143 @@
+{
+  "source": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+  "basis_values": [
+    [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      -1.3416407864998738,
+      -0.4472135954999579,
+      0.4472135954999579,
+      1.3416407864998738
+    ],
+    [
+      1.0,
+      -1.0,
+      -1.0,
+      1.0
+    ],
+    [
+      -0.4472135954999579,
+      1.3416407864998738,
+      -1.3416407864998738,
+      0.4472135954999579
+    ]
+  ],
+  "inner_product": "mean over four coordinate positions",
+  "coefficient_inner_product": "mean over all 16 cells",
+  "maximum_1d_gram_error": 1.3877787807814457e-17,
+  "maximum_parseval_error": 1.4210854715202004e-14,
+  "maximum_magic_axis_mode_magnitude": 5.984795992119984e-16,
+  "total_spatial_energy_range": [
+    21.25,
+    21.25
+  ],
+  "expected_permutation_energy": 21.25,
+  "degree_cutoff_residual_fraction_ranges": {
+    "2": [
+      0.5764705882352941,
+      1.0000000000000004
+    ],
+    "3": [
+      1.595123153939546e-33,
+      1.0000000000000002
+    ],
+    "4": [
+      1.45011195812686e-33,
+      1.0000000000000002
+    ],
+    "5": [
+      0.0,
+      0.42352941176470604
+    ],
+    "6": [
+      0.0,
+      0.0
+    ]
+  },
+  "mode_order": [
+    {
+      "horizontal_degree": 0,
+      "vertical_degree": 0,
+      "total_degree": 0
+    },
+    {
+      "horizontal_degree": 1,
+      "vertical_degree": 0,
+      "total_degree": 1
+    },
+    {
+      "horizontal_degree": 2,
+      "vertical_degree": 0,
+      "total_degree": 2
+    },
+    {
+      "horizontal_degree": 3,
+      "vertical_degree": 0,
+      "total_degree": 3
+    },
+    {
+      "horizontal_degree": 0,
+      "vertical_degree": 1,
+      "total_degree": 1
+    },
+    {
+      "horizontal_degree": 1,
+      "vertical_degree": 1,
+      "total_degree": 2
+    },
+    {
+      "horizontal_degree": 2,
+      "vertical_degree": 1,
+      "total_degree": 3
+    },
+    {
+      "horizontal_degree": 3,
+      "vertical_degree": 1,
+      "total_degree": 4
+    },
+    {
+      "horizontal_degree": 0,
+      "vertical_degree": 2,
+      "total_degree": 2
+    },
+    {
+      "horizontal_degree": 1,
+      "vertical_degree": 2,
+      "total_degree": 3
+    },
+    {
+      "horizontal_degree": 2,
+      "vertical_degree": 2,
+      "total_degree": 4
+    },
+    {
+      "horizontal_degree": 3,
+      "vertical_degree": 2,
+      "total_degree": 5
+    },
+    {
+      "horizontal_degree": 0,
+      "vertical_degree": 3,
+      "total_degree": 3
+    },
+    {
+      "horizontal_degree": 1,
+      "vertical_degree": 3,
+      "total_degree": 4
+    },
+    {
+      "horizontal_degree": 2,
+      "vertical_degree": 3,
+      "total_degree": 5
+    },
+    {
+      "horizontal_degree": 3,
+      "vertical_degree": 3,
+      "total_degree": 6
+    }
+  ]
+}

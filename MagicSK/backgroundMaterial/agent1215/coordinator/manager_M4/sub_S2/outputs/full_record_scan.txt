@@ -1,0 +1,16 @@
+=== Full Record Scan (4400) ===
+total_records: 4400
+parseval_failures: 0
+coeff_failures: 0
+energy_partition_failures: 0
+reconstruction_failures: 0
+height_energy_failures: 0
+Wrote /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/full_record_scan.json
+=== Full Record Scan (4400) ===
+total_records: 4400
+parseval_failures: 0
+coeff_failures: 0
+energy_partition_failures: 0
+reconstruction_failures: 0
+height_energy_failures: 0
+Wrote /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/full_record_scan.json

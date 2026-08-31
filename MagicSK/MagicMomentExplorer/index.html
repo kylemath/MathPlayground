@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Explore spatial-moment energy across all 880 fundamental normal order-4 magic squares and control cohorts.">
+    <title>Magic Moment Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">Normal order-4 census</p>
+        <h1>Magic Moment Explorer</h1>
+        <p class="subtitle">Where does the fixed height variance go after the magic constraints cancel every axial mode?</p>
+      </div>
+      <a class="source-link" href="README.md">Method &amp; reproduction</a>
+    </header>
+
+    <main>
+      <section class="summary-grid" aria-label="Dataset summary">
+        <article class="stat-card">
+          <span>Fundamental squares</span>
+          <strong id="source-count">880</strong>
+          <small>D<sub>4</sub> equivalence classes</small>
+        </article>
+        <article class="stat-card">
+          <span>Oriented squares</span>
+          <strong id="oriented-count">7,040</strong>
+          <small>rotations and reflections included</small>
+        </article>
+        <article class="stat-card">
+          <span>Analyzed records</span>
+          <strong id="record-count">4,400</strong>
+          <small>magic, random, and swap controls</small>
+        </article>
+        <article class="stat-card">
+          <span>Fixed height energy</span>
+          <strong id="height-energy">340</strong>
+          <small>&Sigma;(a<sub>ij</sub> &minus; 8.5)<sup>2</sup></small>
+        </article>
+      </section>
+
+      <section class="method-note card">
+        <div>
+          <p class="eyebrow">Reading the energy</p>
+          <h2>Magic removes axial imbalance, not variation</h2>
+        </div>
+        <p>
+          The centered heights are projected onto a complete orthonormal polynomial basis.
+          Row and column magic force all six axial modes to zero. The same total energy remains,
+          redistributed among nine mixed modes M<sub>pq</sub>. E<sub>d</sub> groups mixed modes
+          by total degree <em>p + q = d</em>.
+        </p>
+      </section>
+
+      <section class="cohort-section card" aria-labelledby="cohort-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Controls</p>
+            <h2 id="cohort-heading">Cohort comparison</h2>
+          </div>
+          <p>Seeded random permutations and independently perturbed source squares.</p>
+        </div>
+        <div class="table-shell compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Cohort</th>
+                <th>Count</th>
+                <th>Still magic</th>
+                <th>Mean line defect</th>
+                <th>Mean axial E</th>
+                <th>Mean low-order E</th>
+                <th>Mean spectral degree</th>
+              </tr>
+            </thead>
+            <tbody id="cohort-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="distribution-section card" aria-labelledby="distribution-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Distributions</p>
+            <h2 id="distribution-heading">Violin plots</h2>
+          </div>
+          <p>Width shows estimated density; the dot and thick line mark the median and interquartile range.</p>
+        </div>
+        <form class="distribution-controls" id="distribution-form">
+          <label>
+            Value column
+            <select id="distribution-metric">
+              <option value="lineDefectEnergy">Line-defect energy</option>
+              <option value="axialEnergy">Axial energy</option>
+              <option value="interactionEnergy">Interaction energy</option>
+              <option value="lowOrderEnergy" selected>Low-order energy E₂ + E₃</option>
+              <option value="highOrderEnergy">Higher energy E₄ + E₅ + E₆</option>
+              <option value="degreeEnergy.2">Degree energy E₂</option>
+              <option value="degreeEnergy.3">Degree energy E₃</option>
+              <option value="degreeEnergy.4">Degree energy E₄</option>
+              <option value="degreeEnergy.5">Degree energy E₅</option>
+              <option value="degreeEnergy.6">Degree energy E₆</option>
+              <option value="spectralCentroid">Mean spectral degree</option>
+              <option value="modeEnergy.M11">Mode energy M₁₁</option>
+              <option value="modeEnergy.M12">Mode energy M₁₂</option>
+              <option value="modeEnergy.M21">Mode energy M₂₁</option>
+              <option value="modeEnergy.M13">Mode energy M₁₃</option>
+              <option value="modeEnergy.M22">Mode energy M₂₂</option>
+              <option value="modeEnergy.M31">Mode energy M₃₁</option>
+              <option value="modeEnergy.M23">Mode energy M₂₃</option>
+              <option value="modeEnergy.M32">Mode energy M₃₂</option>
+              <option value="modeEnergy.M33">Mode energy M₃₃</option>
+            </select>
+          </label>
+          <label>
+            Group by
+            <select id="distribution-group">
+              <option value="cohort" selected>Cohort</option>
+              <option value="dudeney">Dudeney group · magic only</option>
+              <option value="structure">Structure · magic only</option>
+            </select>
+          </label>
+          <label>
+            Axis scale
+            <select id="distribution-scale">
+              <option value="linear" selected>Linear</option>
+              <option value="log">log(1 + value)</option>
+            </select>
+          </label>
+          <button id="reset-distribution" type="button">Reset plot</button>
+        </form>
+        <div class="violin-shell">
+          <canvas id="distribution-chart" aria-label="Violin plot comparing value distributions by category"></canvas>
+        </div>
+        <p id="distribution-status" class="chart-status" role="status"></p>
+      </section>
+
+      <section class="explorer-grid">
+        <div class="catalog card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">All records</p>
+              <h2>Moment-energy table</h2>
+            </div>
+            <p id="result-status" role="status">Loading data…</p>
+          </div>
+
+          <form class="filters" id="filter-form">
+            <label>
+              Cohort
+              <select id="cohort-filter">
+                <option value="all">All cohorts</option>
+                <option value="magic" selected>Magic</option>
+                <option value="swap-1">One pair swapped</option>
+                <option value="swap-2">Two pairs swapped</option>
+                <option value="swap-3">Three pairs swapped</option>
+                <option value="random">Random</option>
+              </select>
+            </label>
+            <label>
+              Dudeney group
+              <select id="group-filter">
+                <option value="all">All groups</option>
+              </select>
+            </label>
+            <label>
+              Structure
+              <select id="class-filter">
+                <option value="all">All structures</option>
+                <option value="pandiagonal">Pandiagonal</option>
+                <option value="associative">Associative</option>
+                <option value="most-perfect">Most-perfect</option>
+                <option value="ordinary">Ordinary</option>
+              </select>
+            </label>
+            <label>
+              Sort
+              <select id="sort-filter">
+                <option value="sourceId">Frénicle index</option>
+                <option value="lowOrderEnergy">Low-order energy</option>
+                <option value="spectralCentroid">Spectral degree</option>
+                <option value="lineDefectEnergy">Line defect</option>
+                <option value="axialEnergy">Axial energy</option>
+              </select>
+            </label>
+            <label class="search-label">
+              Find ID
+              <input id="search-filter" type="search" placeholder="e.g. 42 or M042">
+            </label>
+            <button id="reset-filters" type="button">Reset</button>
+          </form>
+
+          <div class="table-shell records-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cohort</th>
+                  <th>Group</th>
+                  <th>Class</th>
+                  <th>Line defect</th>
+                  <th>Axial E</th>
+                  <th>E<sub>2</sub></th>
+                  <th>E<sub>3</sub></th>
+                  <th>E<sub>4</sub></th>
+                  <th>E<sub>5</sub></th>
+                  <th>E<sub>6</sub></th>
+                  <th>Mean degree</th>
+                </tr>
+              </thead>
+              <tbody id="records-body"></tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button id="previous-page" type="button">Previous</button>
+            <span id="page-status">Page 1</span>
+            <button id="next-page" type="button">Next</button>
+          </div>
+        </div>
+
+        <aside class="detail-column" aria-label="Selected square details">
+          <section class="card square-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Selected square</p>
+                <h2 id="selected-title">M001</h2>
+              </div>
+              <span id="magic-badge" class="badge">Magic</span>
+            </div>
+            <div id="square-diagram" class="square-diagram" aria-label="Selected 4 by 4 square"></div>
+            <div id="line-sums" class="line-sums"></div>
+            <div id="selected-tags" class="tag-list"></div>
+          </section>
+
+          <section class="card chart-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Mixed modes</p>
+                <h2>Remaining energy</h2>
+              </div>
+              <button id="reset-selection" type="button">First result</button>
+            </div>
+            <canvas id="moment-chart" aria-label="Bar chart of mixed moment energies"></canvas>
+            <p id="chart-status" class="chart-status" role="status"></p>
+          </section>
+
+          <section class="card metrics-card">
+            <p class="eyebrow">Selected metrics</p>
+            <dl id="selected-metrics"></dl>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <p>Source: Harvey Heinz’s Frénicle-indexed list. Calculations use only Python’s standard library and deterministic seed 20260709.</p>
+    </footer>
+
+    <script src="data/analysis-data.js"></script>
+    <script src="moments.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+{
+  "app_html_scan": {
+    "path": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/index.html",
+    "lang_en": true,
+    "viewport": true,
+    "skip_link": false,
+    "main_landmark": true,
+    "aria_labels": 5,
+    "role_attrs": 2,
+    "status_live_regions": 2,
+    "table_caption": false,
+    "canvas_charts": 1,
+    "labeled_form_controls": 5,
+    "fieldset_legend": false,
+    "button_types": 4,
+    "h1_count": 1
+  },
+  "m3_html_scan": {
+    "path": "/Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M3/sub_S3/prototype/index.html",
+    "lang_en": true,
+    "viewport": true,
+    "skip_link": true,
+    "main_landmark": true,
+    "aria_labels": 12,
+    "role_attrs": 2,
+    "status_live_regions": 4,
+    "table_caption": true,
+    "canvas_charts": 0,
+    "labeled_form_controls": 9,
+    "fieldset_legend": true,
+    "button_types": 7,
+    "h1_count": 1
+  },
+  "app_css_scan": {
+    "path": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/styles.css",
+    "prefers_reduced_motion": false,
+    "focus_visible": true,
+    "color_scheme_dark": true,
+    "min_touch_target_40px": true,
+    "visually_hidden": false
+  },
+  "m3_css_scan": {
+    "path": "/Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M3/sub_S3/prototype/styles.css",
+    "prefers_reduced_motion": true,
+    "focus_visible": true,
+    "color_scheme_dark": true,
+    "min_touch_target_40px": false,
+    "visually_hidden": true
+  },
+  "contrast_estimate": {
+    "css_variables_present": {
+      "text_on_bg": true,
+      "text_primary_on_panel": false,
+      "secondary_text": false
+    },
+    "note": "M3 uses explicit --text-primary/#e6edf3 on #0d1117; app uses --text/--bg \u2014 likely AA for body text but chart/canvas needs text fallback"
+  },
+  "gaps_vs_m3_prototype": [
+    "app_missing:skip_link (present in M3 prototype)",
+    "app_missing:prefers_reduced_motion (present in M3 prototype)",
+    "app_missing:table_caption (present in M3 prototype)",
+    "app_missing:fieldset_legend (present in M3 prototype)"
+  ],
+  "recommendations": [
+    "Add skip-to-main link and prefers-reduced-motion CSS block (M3 pattern).",
+    "Replace canvas-only chart with SVG or provide hidden data table + aria-describedby (M3 energy-viz pattern).",
+    "Implement square diagram as role=grid with keyboard roving tabindex (M3 diagram.js).",
+    "Add <caption> to data tables; associate filters with aria-controls where live-updating.",
+    "Ensure chart-status and result-status announce filter/pagination changes (aria-live=polite).",
+    "Provide text alternative for line sums (M3 line-sums-table).",
+    "Verify 4.5:1 contrast for --muted/#7d8590 on --panel backgrounds."
+  ]
+}

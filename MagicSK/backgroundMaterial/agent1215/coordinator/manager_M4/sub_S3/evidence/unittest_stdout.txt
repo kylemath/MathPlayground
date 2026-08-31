@@ -1,0 +1,11 @@
+test_basis_is_orthonormal (test_analysis.AnalysisTests) ... ok
+test_dudeney_group_counts (test_analysis.AnalysisTests) ... ok
+test_known_structural_counts (test_analysis.AnalysisTests) ... ok
+test_magic_eliminates_all_axial_modes (test_analysis.AnalysisTests) ... ok
+test_parseval_energy_partition (test_analysis.AnalysisTests) ... ok
+test_reference_census (test_analysis.AnalysisTests) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.076s
+
+OK

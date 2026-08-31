@@ -1,0 +1,30 @@
+=== Basis / Parseval / Reconstruction Audit ===
+1D orthonormal: True (max err 6.661e-16)
+2D tensor orthonormal: True
+Basis matches analysis.json: True
+Height energy constant 340: True
+Magic axial all zero: True (880 records)
+M001: parseval=True, recon_err=4.441e-15, coeff_match=True, axial=0.00000000
+M042: parseval=True, recon_err=6.217e-15, coeff_match=True, axial=0.00000000
+M880: parseval=True, recon_err=8.216e-15, coeff_match=True, axial=0.00000000
+R001: parseval=True, recon_err=7.105e-15, coeff_match=True, axial=212.00000000
+R880: parseval=True, recon_err=5.329e-15, coeff_match=True, axial=79.00000000
+S1-001: parseval=True, recon_err=5.329e-15, coeff_match=True, axial=25.00000000
+S2-042: parseval=True, recon_err=7.216e-15, coeff_match=True, axial=37.00000000
+S3-880: parseval=True, recon_err=9.104e-15, coeff_match=True, axial=86.00000000
+Wrote /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/basis_parseval_audit.json
+=== Basis / Parseval / Reconstruction Audit ===
+1D orthonormal: True (max err 6.661e-16)
+2D tensor orthonormal: True
+Basis matches analysis.json: True
+Height energy constant 340: True
+Magic axial all zero: True (880 records)
+M001: parseval=True, recon_err=4.441e-15, coeff_match=True, axial=0.00000000
+M042: parseval=True, recon_err=6.217e-15, coeff_match=True, axial=0.00000000
+M880: parseval=True, recon_err=8.216e-15, coeff_match=True, axial=0.00000000
+R001: parseval=True, recon_err=7.105e-15, coeff_match=True, axial=212.00000000
+R880: parseval=True, recon_err=5.329e-15, coeff_match=True, axial=79.00000000
+S1-001: parseval=True, recon_err=5.329e-15, coeff_match=True, axial=25.00000000
+S2-042: parseval=True, recon_err=7.216e-15, coeff_match=True, axial=37.00000000
+S3-880: parseval=True, recon_err=9.104e-15, coeff_match=True, axial=86.00000000
+Wrote /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/basis_parseval_audit.json

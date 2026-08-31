@@ -1,0 +1,8 @@
+=== s1_independent_verify.py ===
+
+=== s1_analysis_cohort_check.py ===
+
+=== head magic_squares_880.csv ===
+
+=== wc source files ===
+Done.

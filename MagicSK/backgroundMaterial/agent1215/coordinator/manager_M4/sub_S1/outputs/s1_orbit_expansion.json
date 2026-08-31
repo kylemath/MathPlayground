@@ -1,0 +1,9 @@
+{
+  "csv_representatives": 880,
+  "sum_of_orbit_sizes": 7040,
+  "unique_oriented_union": 7040,
+  "analyze_py_formula_880_times_8": 7040,
+  "all_orbits_size_8": true,
+  "formula_matches_measured_union": true,
+  "note": "analyze.py sets expandedOrientedCount = sourceCount * 8 (formula), not by measuring D4 expansion; this script measures the union."
+}

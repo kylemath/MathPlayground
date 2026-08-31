@@ -1,0 +1,345 @@
+{
+  "constraintExamples": {
+    "row_only": {
+      "lineSums": {
+        "rows": [
+          34,
+          34,
+          34,
+          34
+        ],
+        "columns": [
+          16,
+          20,
+          48,
+          52
+        ],
+        "diagonals": [
+          26,
+          42
+        ]
+      },
+      "coefficients": {
+        "M01": -0.0,
+        "M02": 0.0,
+        "M03": 0.0,
+        "M10": 15.205262247,
+        "M20": 0.0,
+        "M30": -5.366563146,
+        "M11": -8.0,
+        "M12": 0.0,
+        "M21": 0.0,
+        "M22": 0.0,
+        "M13": 0.0,
+        "M31": 4.0,
+        "M33": -0.0
+      },
+      "diagonalRelations": {
+        "c11": -8.0,
+        "c22": 0.0,
+        "c33": -0.0,
+        "main_balance": -8.0,
+        "anti_balance": 8.0,
+        "c33_equals_neg_c11": -8.0
+      },
+      "flags": {
+        "rowMagic": true,
+        "colMagic": false,
+        "semiMagic": false,
+        "fullMagic": false
+      }
+    },
+    "col_only_transpose": {
+      "lineSums": {
+        "rows": [
+          16,
+          20,
+          48,
+          52
+        ],
+        "columns": [
+          34,
+          34,
+          34,
+          34
+        ],
+        "diagonals": [
+          26,
+          42
+        ]
+      },
+      "coefficients": {
+        "M01": 15.205262247,
+        "M02": 0.0,
+        "M03": -5.366563146,
+        "M10": -0.0,
+        "M20": 0.0,
+        "M30": -0.0,
+        "M11": -8.0,
+        "M12": 0.0,
+        "M21": 0.0,
+        "M22": 0.0,
+        "M13": 4.0,
+        "M31": 0.0,
+        "M33": -0.0
+      },
+      "diagonalRelations": {
+        "c11": -8.0,
+        "c22": 0.0,
+        "c33": -0.0,
+        "main_balance": -8.0,
+        "anti_balance": 8.0,
+        "c33_equals_neg_c11": -8.0
+      },
+      "flags": {
+        "rowMagic": false,
+        "colMagic": true,
+        "semiMagic": false,
+        "fullMagic": false
+      }
+    },
+    "semi_magic": {
+      "lineSums": {
+        "rows": [
+          34,
+          34,
+          34,
+          34
+        ],
+        "columns": [
+          34,
+          34,
+          34,
+          34
+        ],
+        "diagonals": [
+          33,
+          43
+        ]
+      },
+      "coefficients": {
+        "M01": -0.0,
+        "M02": 0.0,
+        "M03": 0.0,
+        "M10": 0.0,
+        "M20": 0.0,
+        "M30": 0.0,
+        "M11": -8.4,
+        "M12": 10.733126292,
+        "M21": -0.4472135955,
+        "M22": 4.0,
+        "M13": -6.8,
+        "M31": 4.2,
+        "M33": 3.4
+      },
+      "diagonalRelations": {
+        "c11": -8.4,
+        "c22": 4.0,
+        "c33": 3.4,
+        "main_balance": -1.0,
+        "anti_balance": 9.0,
+        "c33_equals_neg_c11": -5.0
+      },
+      "flags": {
+        "rowMagic": true,
+        "colMagic": true,
+        "semiMagic": true,
+        "fullMagic": false
+      }
+    },
+    "known_magic": {
+      "lineSums": {
+        "rows": [
+          34,
+          34,
+          34,
+          34
+        ],
+        "columns": [
+          34,
+          34,
+          34,
+          34
+        ],
+        "diagonals": [
+          34,
+          34
+        ]
+      },
+      "coefficients": {
+        "M01": -0.0,
+        "M02": 0.0,
+        "M03": 0.0,
+        "M10": -0.0,
+        "M20": 0.0,
+        "M30": 0.0,
+        "M11": -8.6,
+        "M12": 12.521980674,
+        "M21": 0.0,
+        "M22": 0.0,
+        "M13": -4.2,
+        "M31": 3.8,
+        "M33": 8.6
+      },
+      "diagonalRelations": {
+        "c11": -8.6,
+        "c22": 0.0,
+        "c33": 8.6,
+        "main_balance": 0.0,
+        "anti_balance": -0.0,
+        "c33_equals_neg_c11": 0.0
+      },
+      "flags": {
+        "rowMagic": true,
+        "colMagic": true,
+        "semiMagic": true,
+        "fullMagic": true
+      }
+    }
+  },
+  "magicScan": {
+    "count": 880,
+    "maxAbs": {
+      "M01": 0.0,
+      "M02": 0.0,
+      "M03": 0.0,
+      "M10": 0.0,
+      "M11": 12.0,
+      "M12": 17.88854382,
+      "M13": 16.8,
+      "M20": 0.0,
+      "M21": 12.521980674,
+      "M22": 0.0,
+      "M23": 17.88854382,
+      "M30": 0.0,
+      "M31": 13.8,
+      "M32": 16.099689438,
+      "M33": 12.0
+    },
+    "forcedZero": {
+      "M01": true,
+      "M02": true,
+      "M03": true,
+      "M10": true,
+      "M11": false,
+      "M12": false,
+      "M13": false,
+      "M20": true,
+      "M21": false,
+      "M22": true,
+      "M23": false,
+      "M30": true,
+      "M31": false,
+      "M32": false,
+      "M33": false
+    }
+  },
+  "phi3_closed_form": "sqrt(5/9) * (t^3 - (41/20)*t)",
+  "phi3_alt_samples": "[-1, 3, -3, 1] / (2*sqrt(5))",
+  "coordinates": [
+    -1.5,
+    -0.5,
+    0.5,
+    1.5
+  ],
+  "basis_1d": [
+    [
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    [
+      -0.6708203932499369,
+      -0.22360679774997896,
+      0.22360679774997896,
+      0.6708203932499369
+    ],
+    [
+      0.5,
+      -0.5,
+      -0.5,
+      0.5
+    ],
+    [
+      -0.2236067977499785,
+      0.670820393249937,
+      -0.670820393249937,
+      0.2236067977499785
+    ]
+  ],
+  "gram_1d_max_error": 6.661338147750939e-16,
+  "gram_16_max_error": 7.199102425303749e-16,
+  "reconstruction_errors": {
+    "known_magic": 4.440892098500626e-15,
+    "row_only": 7.105427357601002e-15,
+    "checkerboard_pattern": 3.552713678800501e-15
+  },
+  "parseval_errors": {
+    "known_magic": 5.684341886080802e-14,
+    "row_only": 2.8421709430404007e-13,
+    "checkerboard_pattern": 0.0
+  },
+  "browser_gram_max_error": 7.199102425303749e-16,
+  "diagonalRelationsKnownMagic": {
+    "c11": -8.6,
+    "c22": 0.0,
+    "c33": 8.6,
+    "main_balance": 0.0,
+    "anti_balance": -0.0,
+    "c33_equals_neg_c11": 0.0
+  },
+  "diagonalRelationsSemiMagic": {
+    "c11": -8.4,
+    "c22": 4.0,
+    "c33": 3.4,
+    "main_balance": -1.0,
+    "anti_balance": 9.0,
+    "c33_equals_neg_c11": -5.0
+  },
+  "rowColOnlyM22Counterexample": -1.0,
+  "tolerances": {
+    "python_gram": 1e-12,
+    "python_recon": 1e-12,
+    "python_parseval": 1e-12,
+    "zero_detect": 1e-08,
+    "browser_gram": 1e-10,
+    "browser_zero": 1e-06,
+    "diagonal_relations": 1e-09
+  },
+  "theory": {
+    "forcedByColSums": [
+      "M10",
+      "M20",
+      "M30"
+    ],
+    "forcedByRowSums": [
+      "M01",
+      "M02",
+      "M03"
+    ],
+    "forcedByCentering": [
+      "M00"
+    ],
+    "forcedByBothDiagonals": {
+      "M22": "c22 = 0",
+      "M33": "c33 = -c11 (paired with M11)",
+      "relations": [
+        "c11 + c22 + c33 = 0",
+        "-c11 + c22 - c33 = 0"
+      ]
+    },
+    "notForcedByRowCol": [
+      "M11",
+      "M12",
+      "M13",
+      "M21",
+      "M22",
+      "M23",
+      "M31",
+      "M32",
+      "M33"
+    ],
+    "semiMagicNotDiagonalCounterexample": "Semi-magic with failing diagonals may have M22\u22600; this does not refute diagonal forcing on full magic squares."
+  }
+}

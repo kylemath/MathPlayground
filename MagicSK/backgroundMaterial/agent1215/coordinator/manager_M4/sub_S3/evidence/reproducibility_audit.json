@@ -1,0 +1,48 @@
+{
+  "control_protocol_comparison": {
+    "app_uses_python_random": true,
+    "m2_recommends_mulberry32": true,
+    "app_swap_semantics": "simultaneous k disjoint pairs via rng.sample(16, 2k)",
+    "m2_default_swap_semantics": "sequential k transpositions; uniform pair with replacement",
+    "seed": 20260709,
+    "example_swap1_first8_cells_app": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      16,
+      7,
+      8
+    ],
+    "example_random_first8_cells_app": [
+      8,
+      4,
+      3,
+      15,
+      9,
+      2,
+      10,
+      5
+    ],
+    "cross_stream_risk": "Control cohorts will not match M2 control_ensembles.py unless protocols aligned"
+  },
+  "analyze_regeneration": {
+    "command": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3 /Users/kylemathewson/MagicSK/MagicMomentExplorer/scripts/analyze.py --input /Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv --output-dir /var/folders/35/12qy_25n0bl4r8hh53vw05hr0000gn/T/s3_audit_8nvcjwx8/out --seed 20260709 --random-count 880",
+    "returncode": 0,
+    "stdout": "Wrote 4400 records to /var/folders/35/12qy_25n0bl4r8hh53vw05hr0000gn/T/s3_audit_8nvcjwx8/out/analysis.json, /var/folders/35/12qy_25n0bl4r8hh53vw05hr0000gn/T/s3_audit_8nvcjwx8/out/analysis.csv, and analysis-data.js",
+    "stderr": "",
+    "existing_sha256": "95908addccce69f88299f410eb4e5def0c1b30b356b0fb5e727a7c48345148c9",
+    "regenerated_sha256": "95908addccce69f88299f410eb4e5def0c1b30b356b0fb5e727a7c48345148c9",
+    "json_identical": true,
+    "first_record_id_match": true,
+    "first_record_interaction_match": true
+  },
+  "basis_alignment_with_m2": {
+    "coordinates_match": true,
+    "basis_max_abs_diff": 4.9978965410701903e-11,
+    "basis_mismatch_count": 0,
+    "basis_aligned": true
+  },
+  "fetch_source_note": "fetch_source.py requires network; not re-run in this audit (existing magic_squares_880.csv audited by coordinator_dataset_audit.json)"
+}

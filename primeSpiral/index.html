@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>3D Ulam Spiral · Lattice Comparator</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; overflow: hidden;
+    background: #000; height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Mono", Menlo, Consolas, monospace;
+    color: #fff;
+  }
+  canvas { display: block; }
+
+  #hud {
+    position: fixed; top: 14px; left: 14px;
+    font-size: 12px; line-height: 1.7;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+    opacity: 0.85;
+    user-select: none;
+    max-width: 60vw;
+  }
+  .key {
+    display: inline-block; padding: 1px 6px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 3px; font-size: 10.5px;
+    margin: 0 1px; background: rgba(255,255,255,0.06);
+  }
+  #stats {
+    position: fixed; bottom: 14px; left: 14px;
+    font-size: 11px; opacity: 0.78;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+    line-height: 1.6;
+    user-select: none;
+  }
+  #crosshair {
+    position: fixed; top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    margin: -3px 0 0 -3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    box-shadow: 0 0 6px rgba(0,0,0,0.9);
+    pointer-events: none;
+  }
+
+  #overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 12;
+    transition: opacity 0.4s;
+  }
+  #overlay.hidden { opacity: 0; pointer-events: none; }
+  #overlay.dismissed { display: none; }
+  #overlay .panel {
+    padding: 28px 36px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    text-align: center;
+    background: rgba(20,22,32,0.5);
+    max-width: 520px;
+  }
+  h1 { margin: 0 0 12px; font-size: 22px; font-weight: 500; letter-spacing: 0.5px; }
+  p  { margin: 8px 0; font-size: 13px; opacity: 0.85; line-height: 1.6; }
+  .start {
+    margin-top: 16px;
+    padding: 9px 18px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 4px;
+    display: inline-block; font-size: 13px;
+  }
+  #loader {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255,255,255,0.7); font-size: 13px; z-index: 20;
+  }
+
+  /* Subtle prompt shown when pointer is unlocked (after first dismissal of overlay) */
+  #flyHint {
+    position: fixed;
+    top: 54%; left: 50%;
+    transform: translate(-50%, 0);
+    padding: 6px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.45);
+    color: rgba(255,255,255,0.85);
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s;
+    z-index: 4;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+    user-select: none;
+  }
+  #flyHint.visible { opacity: 1; }
+
+  /* Settings panel */
+  #panel {
+    position: fixed; top: 14px; right: 14px;
+    width: 270px;
+    background: rgba(10,12,18,0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    font-size: 12px; color: #ddd;
+    z-index: 5;
+    user-select: none;
+  }
+  #panel.collapsed { width: auto; }
+  #panel.collapsed .panel-content { display: none; }
+  .panel-header {
+    padding: 8px 12px;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-weight: 500;
+  }
+  .panel-header .arrow { opacity: 0.5; font-size: 10px; }
+  .panel-content { padding: 0 12px 12px; }
+  .section { padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+  .section:first-child { border-top: none; padding-top: 4px; }
+  .section-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.9px;
+    opacity: 0.55; margin-bottom: 6px;
+  }
+  .row { display: flex; gap: 6px; margin: 5px 0; align-items: center; }
+  .btn {
+    flex: 1; padding: 6px 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff; border-radius: 4px;
+    cursor: pointer; font-size: 11.5px; font-family: inherit;
+    transition: background 0.12s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.12); }
+  .btn.active {
+    background: rgba(120,180,255,0.22);
+    border-color: rgba(140,200,255,0.55);
+    color: #fff;
+  }
+  select, input[type=number], input[type=text] {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    padding: 5px 7px;
+    border-radius: 4px;
+    width: 100%;
+    font-family: inherit; font-size: 12px;
+    box-sizing: border-box;
+  }
+  input[type=range] { width: 100%; accent-color: #79b6ff; }
+  .check { display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 3px 0; }
+  .check input { accent-color: #79b6ff; }
+  .meta { opacity: 0.65; font-size: 10.5px; line-height: 1.5; margin-top: 4px; }
+  .num { display: flex; align-items: center; gap: 6px; }
+  .num input[type=number] { width: 80px; }
+  .swatch {
+    display: inline-block; width: 9px; height: 9px;
+    border-radius: 50%; margin-right: 5px; vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">Constructing spiral…</div>
+
+<div id="hud">
+  <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> move
+  <span class="key">E</span>/<span class="key">Q</span> up/down
+  <span class="key">Shift</span> sprint
+  Mouse look
+  <span class="key">Esc</span> release<br />
+  <span class="key">O</span> ortho
+  <span class="key">1</span>–<span class="key">9</span><span class="key">0</span> modes
+  <span class="key">N</span> reroll
+  <span class="key">L</span> path
+  <span class="key">[</span>/<span class="key">]</span> point size
+  <span class="key">R</span> reset view
+</div>
+
+<div id="stats"></div>
+<div id="crosshair"></div>
+<div id="flyHint">Click canvas to fly · Esc releases mouse</div>
+
+<div id="overlay">
+  <div class="panel">
+    <h1>3D Ulam Spiral · Lattice Comparator</h1>
+    <p>Each integer <em>1 … N</em> sits at one lattice point of a cubic 3D Ulam spiral. Switch the camera to <strong>orthographic</strong> and toggle between <em>primes</em>, <em>random integers</em>, and <em>regular patterns</em> at matched density to see how much of the visual structure is the lattice itself versus anything specific to primes.</p>
+    <p>Click to lock the cursor and fly through the lattice.</p>
+    <div class="start">Click to fly</div>
+  </div>
+</div>
+
+<div id="panel">
+  <div class="panel-header" id="panelHeader">
+    <span>Controls</span>
+    <span class="arrow" id="panelArrow">▾</span>
+  </div>
+  <div class="panel-content">
+
+    <div class="section">
+      <div class="section-title">Camera</div>
+      <div class="row">
+        <button class="btn active" data-cam="persp">Perspective</button>
+        <button class="btn"        data-cam="ortho">Orthographic</button>
+      </div>
+      <div class="meta" id="camMeta">Wheel zooms in orthographic mode.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Show</div>
+      <select id="modeSelect">
+        <option value="primes">1 · Primes</option>
+        <option value="random">2 · Random integers</option>
+        <option value="composites">3 · Composites</option>
+        <option value="multiples">4 · Multiples of k</option>
+        <option value="sixn">5 · 6n ± 1 candidates</option>
+        <option value="noise">6 · Continuous noise</option>
+        <option value="gauss">7 · Gaussian cloud</option>
+        <option value="all">8 · All integers</option>
+        <option value="spf">9 · Smallest prime factor</option>
+        <option value="residue">0 · Residue class (mod m)</option>
+      </select>
+      <div class="row" id="kRow" style="display:none">
+        <span style="opacity:0.7">k =</span>
+        <input type="number" id="kInput" value="6" min="2" max="999" step="1" />
+      </div>
+      <div class="row" id="residueRow" style="display:none; flex-wrap:wrap; gap:6px">
+        <span style="opacity:0.7">m =</span>
+        <input type="number" id="mInput" value="6" min="2" max="999" step="1" style="flex:1" />
+        <span style="opacity:0.7">a =</span>
+        <input type="number" id="aInput" value="-1" min="-1" max="998" step="1" style="flex:1" />
+        <span class="meta" style="flex-basis:100%">a = -1 colors all residues; otherwise filter to n ≡ a (mod m).</span>
+      </div>
+      <div class="row">
+        <span style="opacity:0.7;min-width:42px">count</span>
+        <input type="range" id="countSlider" min="0" max="1000000" step="500" value="78498" />
+      </div>
+      <div class="num">
+        <input type="number" id="countNum" min="0" max="1000000" step="1" value="78498" />
+        <span class="meta" id="countMeta"></span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Display</div>
+      <label class="check"><input type="checkbox" id="pathChk" /> Path line (consecutive integers)</label>
+      <label class="check"><input type="checkbox" id="axesChk" checked /> Coordinate axes</label>
+      <label class="check"><input type="checkbox" id="cubeChk" /> Bounding cube wireframe</label>
+      <label class="check"><input type="checkbox" id="dimComp" /> Dim non-selected lattice as ghost</label>
+    </div>
+
+    <div class="section">
+      <div class="row">
+        <button class="btn" id="rerollBtn">Reroll random</button>
+        <button class="btn" id="resetBtn">Reset view</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from "three";
+import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
+
+// ---------- Configuration ----------
+const TARGET_N = 1000000;
+const SPACING  = 1.0;
+
+// ---------- Sieve of Eratosthenes ----------
+function sieve(n) {
+  const isPrime = new Uint8Array(n + 1);
+  isPrime.fill(1);
+  isPrime[0] = 0;
+  if (n >= 1) isPrime[1] = 0;
+  for (let i = 2; i * i <= n; i++) {
+    if (isPrime[i]) {
+      for (let j = i * i; j <= n; j += i) isPrime[j] = 0;
+    }
+  }
+  return isPrime;
+}
+
+// ---------- 3D Ulam-spiral generator ----------
+// Walks outward through nested cubic shells. Within shell radius r:
+//   1. bottom face z = -r is filled in a snake (boustrophedon) pattern
+//   2. side rings at z = -r+1 ... r-1 are walked counter-clockwise
+//   3. top face z = +r is filled in a snake pattern
+function generate3DUlamSpiral(N) {
+  const positions = new Float32Array(N * 3);
+  let count = 0;
+  function add(x, y, z) {
+    if (count >= N) return false;
+    positions[count * 3]     = x * SPACING;
+    positions[count * 3 + 1] = y * SPACING;
+    positions[count * 3 + 2] = z * SPACING;
+    count++;
+    return true;
+  }
+  add(0, 0, 0);
+  let r = 1;
+  outer: while (count < N) {
+    for (let y = -r; y <= r; y++) {
+      if (((y + r) & 1) === 0) {
+        for (let x = -r; x <= r; x++) if (!add(x, y, -r)) break outer;
+      } else {
+        for (let x = r; x >= -r; x--) if (!add(x, y, -r)) break outer;
+      }
+    }
+    for (let z = -r + 1; z <= r - 1; z++) {
+      for (let x = -r; x <  r;  x++) if (!add(x, -r, z)) break outer;
+      for (let y = -r; y <  r;  y++) if (!add( r,  y, z)) break outer;
+      for (let x =  r; x > -r;  x--) if (!add(x,  r, z)) break outer;
+      for (let y =  r; y > -r;  y--) if (!add(-r, y, z)) break outer;
+    }
+    for (let y = -r; y <= r; y++) {
+      if (((y + r) & 1) === 0) {
+        for (let x = -r; x <= r; x++) if (!add(x, y, r)) break outer;
+      } else {
+        for (let x = r; x >= -r; x--) if (!add(x, y, r)) break outer;
+      }
+    }
+    r++;
+  }
+  return { positions, count, maxShell: r - 1 };
+}
+
+// ---------- Build base data ----------
+const t0 = performance.now();
+const { positions: latticePositions, maxShell } = generate3DUlamSpiral(TARGET_N);
+const isPrime = sieve(TARGET_N);
+
+// Smallest prime factor for each n in [1..N]. spf[1] = 1 by convention; for prime n, spf[n] = n.
+const spf = new Uint32Array(TARGET_N + 1);
+spf[1] = 1;
+for (let i = 2; i <= TARGET_N; i++) {
+  if (spf[i] === 0) {
+    for (let j = i; j <= TARGET_N; j += i) {
+      if (spf[j] === 0) spf[j] = i;
+    }
+  }
+}
+
+// indices, by category, into the lattice array (0-based, where index i ↔ integer i+1)
+const primeIdx     = [];
+const compositeIdx = [];
+const sixnIdx      = []; // n ≡ ±1 (mod 6), n > 1
+for (let i = 0; i < TARGET_N; i++) {
+  const n = i + 1;
+  if (isPrime[n]) primeIdx.push(i);
+  else if (n > 1) compositeIdx.push(i);
+  if (n > 1 && (n % 6 === 1 || n % 6 === 5)) sixnIdx.push(i);
+}
+console.log(`Generated ${TARGET_N} lattice points in ${(performance.now() - t0).toFixed(0)} ms · ${primeIdx.length} primes`);
+
+// ---------- Color helpers ----------
+function hslToRgb(h, s, l) {
+  h = ((h % 1) + 1) % 1;
+  let r, g, b;
+  if (s === 0) { r = g = b = l; }
+  else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1; if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+  return [r, g, b];
+}
+const SPF_PALETTE = {
+  2:  [0.32, 0.58, 1.00],   // blue
+  3:  [0.42, 1.00, 0.55],   // green
+  5:  [1.00, 0.92, 0.42],   // yellow
+  7:  [1.00, 0.62, 0.30],   // orange
+  11: [1.00, 0.40, 0.55],   // pink-red
+  13: [0.82, 0.50, 1.00],   // violet
+  17: [0.45, 0.95, 1.00],   // cyan
+  19: [1.00, 0.45, 0.85],   // magenta
+  23: [0.95, 0.78, 0.55],   // tan
+};
+function spfColor(p) {
+  if (SPF_PALETTE[p]) return SPF_PALETTE[p];
+  // Larger primes get hue cycled through log space so each prime gets its own tint.
+  return hslToRgb(Math.log2(p) * 0.137, 0.55, 0.6);
+}
+
+// ---------- Three.js boilerplate ----------
+const scene = new THREE.Scene();
+scene.fog   = new THREE.FogExp2(0x000010, 0.0035);
+
+const persp = new THREE.PerspectiveCamera(72, innerWidth / innerHeight, 0.1, 4000);
+persp.position.set(maxShell * 2.6, maxShell * 1.6, maxShell * 3.0);
+persp.lookAt(0, 0, 0);
+
+let orthoSize = maxShell * 1.7;
+const ortho = new THREE.OrthographicCamera(
+  -orthoSize, orthoSize, orthoSize, -orthoSize, -2000, 2000
+);
+ortho.position.copy(persp.position);
+ortho.quaternion.copy(persp.quaternion);
+
+let useOrtho = false;
+
+function updateOrthoFrustum() {
+  const aspect = innerWidth / innerHeight;
+  ortho.left   = -orthoSize * aspect;
+  ortho.right  =  orthoSize * aspect;
+  ortho.top    =  orthoSize;
+  ortho.bottom = -orthoSize;
+  ortho.updateProjectionMatrix();
+}
+updateOrthoFrustum();
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.setClearColor(0x000008, 1);
+document.body.appendChild(renderer.domElement);
+
+// ---------- Shared point shader ----------
+const pointVS = `
+  attribute float size;
+  attribute vec3  color;
+  varying  vec3   vColor;
+  varying  float  vSize;
+  uniform  float  uPixelRatio;
+  uniform  float  uSizeScale;
+  uniform  float  uOrthoFactor; // additional scaling in ortho where there is no perspective divide
+  uniform  bool   uIsOrtho;
+  void main() {
+    vColor = color;
+    vSize  = size;
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    if (uIsOrtho) {
+      gl_PointSize = size * uSizeScale * uPixelRatio * uOrthoFactor;
+    } else {
+      gl_PointSize = size * uSizeScale * uPixelRatio * (240.0 / -mv.z);
+    }
+    gl_Position = projectionMatrix * mv;
+  }
+`;
+const pointFS = `
+  varying vec3  vColor;
+  varying float vSize;
+  void main() {
+    vec2  c = gl_PointCoord - vec2(0.5);
+    float d = length(c);
+    if (d > 0.5) discard;
+    float a    = smoothstep(0.5, 0.0, d);
+    float core = smoothstep(0.32, 0.0, d) * (vSize > 3.0 ? 1.0 : 0.0);
+    vec3  col  = vColor * (a + core * 0.8);
+    gl_FragColor = vec4(col, a * 0.95);
+  }
+`;
+function makePointMaterial() {
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      uPixelRatio:  { value: renderer.getPixelRatio() },
+      uSizeScale:   { value: 1.0 },
+      uOrthoFactor: { value: 1.0 },
+      uIsOrtho:     { value: false },
+    },
+    vertexShader:   pointVS,
+    fragmentShader: pointFS,
+    transparent: true,
+    depthWrite:  false,
+    blending:    THREE.AdditiveBlending,
+  });
+}
+
+// ---------- Lattice points object (positions fixed) ----------
+const latticeColors = new Float32Array(TARGET_N * 3);
+const latticeSizes  = new Float32Array(TARGET_N);
+const latticeGeom   = new THREE.BufferGeometry();
+latticeGeom.setAttribute("position", new THREE.BufferAttribute(latticePositions, 3));
+latticeGeom.setAttribute("color",    new THREE.BufferAttribute(latticeColors,    3));
+latticeGeom.setAttribute("size",     new THREE.BufferAttribute(latticeSizes,     1));
+const latticeMaterial = makePointMaterial();
+const latticePoints   = new THREE.Points(latticeGeom, latticeMaterial);
+scene.add(latticePoints);
+
+// ---------- Off-lattice (continuous) points object ----------
+const noisePositions = new Float32Array(TARGET_N * 3);
+const noiseColors    = new Float32Array(TARGET_N * 3);
+const noiseSizes     = new Float32Array(TARGET_N);
+const noiseGeom      = new THREE.BufferGeometry();
+noiseGeom.setAttribute("position", new THREE.BufferAttribute(noisePositions, 3));
+noiseGeom.setAttribute("color",    new THREE.BufferAttribute(noiseColors,    3));
+noiseGeom.setAttribute("size",     new THREE.BufferAttribute(noiseSizes,     1));
+const noiseMaterial = makePointMaterial();
+const noisePoints   = new THREE.Points(noiseGeom, noiseMaterial);
+noisePoints.visible = false;
+scene.add(noisePoints);
+
+// ---------- Path line through consecutive integers ----------
+const pathLine = new THREE.Line(
+  new THREE.BufferGeometry().setAttribute(
+    "position", new THREE.BufferAttribute(latticePositions, 3)
+  ),
+  new THREE.LineBasicMaterial({
+    color: 0x4488cc, transparent: true, opacity: 0.06,
+    depthWrite: false, blending: THREE.AdditiveBlending,
+  })
+);
+pathLine.visible = false;
+scene.add(pathLine);
+
+// ---------- Faint coordinate axes ----------
+const axesGroup = new THREE.Group();
+const axisLen = (maxShell + 2) * SPACING;
+function axisLine(dir, color) {
+  const g = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3().copy(dir).multiplyScalar(-axisLen),
+    new THREE.Vector3().copy(dir).multiplyScalar( axisLen),
+  ]);
+  return new THREE.Line(g, new THREE.LineBasicMaterial({
+    color, transparent: true, opacity: 0.10, depthWrite: false,
+  }));
+}
+axesGroup.add(axisLine(new THREE.Vector3(1, 0, 0), 0xff5566));
+axesGroup.add(axisLine(new THREE.Vector3(0, 1, 0), 0x55ff88));
+axesGroup.add(axisLine(new THREE.Vector3(0, 0, 1), 0x5599ff));
+scene.add(axesGroup);
+
+// ---------- Bounding cube wireframe ----------
+const cubeGroup = new THREE.LineSegments(
+  new THREE.EdgesGeometry(new THREE.BoxGeometry(
+    (2 * maxShell + 1) * SPACING,
+    (2 * maxShell + 1) * SPACING,
+    (2 * maxShell + 1) * SPACING
+  )),
+  new THREE.LineBasicMaterial({ color: 0x88aaff, transparent: true, opacity: 0.18, depthWrite: false })
+);
+cubeGroup.visible = false;
+scene.add(cubeGroup);
+
+// ---------- Background starfield ----------
+{
+  const starCount = 1500;
+  const sg = new THREE.BufferGeometry();
+  const sp = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    const r = 1100 + Math.random() * 600;
+    const t = Math.random() * Math.PI * 2;
+    const p = Math.acos(2 * Math.random() - 1);
+    sp[i*3  ] = r * Math.sin(p) * Math.cos(t);
+    sp[i*3+1] = r * Math.sin(p) * Math.sin(t);
+    sp[i*3+2] = r * Math.cos(p);
+  }
+  sg.setAttribute("position", new THREE.BufferAttribute(sp, 3));
+  scene.add(new THREE.Points(sg, new THREE.PointsMaterial({
+    color: 0xffffff, size: 1, sizeAttenuation: false,
+    transparent: true, opacity: 0.45,
+  })));
+}
+
+// ---------- PointerLockControls (always bound to perspective camera) ----------
+const controls = new PointerLockControls(persp, document.body);
+const overlay  = document.getElementById("overlay");
+const loader   = document.getElementById("loader");
+const flyHint  = document.getElementById("flyHint");
+loader.style.display = "none";
+
+// The intro overlay appears once. After it's dismissed, releasing the mouse
+// (Esc) just unlocks pointer capture so the side panel can be used; clicking
+// on the canvas (not on the panel) re-engages flight.
+let overlayDismissed = false;
+function dismissOverlay() {
+  overlayDismissed = true;
+  overlay.classList.add("hidden");
+  // After the fade-out, take it out of the layout entirely so it can never
+  // intercept clicks again, even if a future bug reset its opacity.
+  setTimeout(() => overlay.classList.add("dismissed"), 450);
+}
+
+overlay.addEventListener("click", () => {
+  dismissOverlay();
+  controls.lock();
+});
+
+controls.addEventListener("lock", () => {
+  flyHint.classList.remove("visible");
+});
+controls.addEventListener("unlock", () => {
+  if (overlayDismissed) {
+    flyHint.classList.add("visible");
+  }
+});
+
+// Re-engage pointer-lock by clicking on the 3D canvas after the overlay
+// has been dismissed. Clicks on the settings panel are ignored so its inputs
+// stay usable.
+renderer.domElement.addEventListener("click", () => {
+  if (!overlayDismissed) return;
+  if (controls.isLocked) return;
+  controls.lock();
+});
+
+// ---------- Mode logic ----------
+const MODE_PALETTE = {
+  primes:     [1.00, 0.82, 0.42],
+  random:     [0.50, 0.95, 0.85],
+  composites: [0.50, 0.62, 0.80],
+  multiples:  [0.55, 0.95, 0.65],
+  sixn:       [1.00, 0.62, 0.40],
+  noise:      [0.95, 0.95, 1.00],
+  gauss:      [0.78, 0.85, 1.00],
+  all:        [0.85, 0.85, 0.95],
+  spf:        [1.00, 0.95, 0.70],
+  residue:    [0.85, 0.78, 1.00],
+};
+const MODE_LABEL = {
+  primes: "primes", random: "random integers", composites: "composites",
+  multiples: "multiples of k", sixn: "6n±1 candidates",
+  noise: "continuous noise", gauss: "Gaussian cloud", all: "all integers",
+  spf: "smallest prime factor", residue: "residue class",
+};
+
+let currentMode = "primes";
+let currentCount = primeIdx.length;
+let kValue = 6;
+let mValue = 6;
+let aValue = -1; // residue value; -1 means "color all residues"
+let lastSeed = 0; // bump to reroll randomness
+let dimComposites = false;
+
+// Returns the maximum count achievable in the current mode.
+function modeMax(mode, k) {
+  switch (mode) {
+    case "primes":     return primeIdx.length;
+    case "composites": return compositeIdx.length;
+    case "sixn":       return sixnIdx.length;
+    case "multiples":  return Math.floor(TARGET_N / Math.max(2, k));
+    case "residue": {
+      if (aValue < 0) return TARGET_N;
+      const m = Math.max(2, mValue);
+      const target = ((aValue % m) + m) % m;
+      // Number of n in [1..N] with n ≡ target (mod m).
+      // target == 0 → m, 2m, …  count = ⌊N/m⌋
+      // else        → first hit at target if target ≤ N, then +m steps
+      if (target === 0) return Math.floor(TARGET_N / m);
+      return target <= TARGET_N ? (1 + Math.floor((TARGET_N - target) / m)) : 0;
+    }
+    default:           return TARGET_N;
+  }
+}
+
+// Returns lattice indices in their natural ordering for the given mode.
+function modeIndices(mode, k) {
+  switch (mode) {
+    case "primes":     return primeIdx;
+    case "composites": return compositeIdx;
+    case "sixn":       return sixnIdx;
+    case "multiples": {
+      const out = [];
+      for (let n = k; n <= TARGET_N; n += k) out.push(n - 1);
+      return out;
+    }
+    case "all": {
+      const out = new Array(TARGET_N);
+      for (let i = 0; i < TARGET_N; i++) out[i] = i;
+      return out;
+    }
+    default: return null; // random / noise / gauss handled separately
+  }
+}
+
+// Deterministic-ish PRNG so reroll button gives reproducible runs after a click.
+function mulberry32(seed) {
+  let s = seed >>> 0;
+  return function() {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Random subset of [0..total) of size k, using Floyd-style sampling for k << total
+// and a Fisher-Yates shuffle otherwise.
+function randomLatticeIndices(total, k, seed) {
+  const rand = mulberry32(seed);
+  k = Math.min(k, total);
+  if (k === 0) return [];
+  if (k <= total / 2) {
+    const set = new Set();
+    while (set.size < k) set.add(Math.floor(rand() * total));
+    return [...set];
+  }
+  const arr = new Int32Array(total);
+  for (let i = 0; i < total; i++) arr[i] = i;
+  for (let i = total - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    const tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+  }
+  return Array.from(arr.subarray(0, k));
+}
+
+function gaussSample(rand) {
+  let u = 0, v = 0;
+  while (u === 0) u = rand();
+  while (v === 0) v = rand();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+// Apply current mode + count to GPU buffers.
+function applyMode() {
+  const sizeAttr  = latticeGeom.getAttribute("size");
+  const colorAttr = latticeGeom.getAttribute("color");
+  const S = sizeAttr.array, C = colorAttr.array;
+
+  // Reset lattice buffers. For "highlight a subset" modes, optionally draw the
+  // un-selected lattice cells as a faint dark cloud so the substrate is visible.
+  const subsetModes = new Set([
+    "primes", "random", "composites", "multiples", "sixn",
+  ]);
+  if (dimComposites && subsetModes.has(currentMode)) {
+    for (let i = 0; i < TARGET_N; i++) {
+      S[i] = 0.7;
+      C[i*3] = 0.06; C[i*3+1] = 0.09; C[i*3+2] = 0.16;
+    }
+  } else if (currentMode === "residue" && aValue >= 0 && dimComposites) {
+    for (let i = 0; i < TARGET_N; i++) {
+      S[i] = 0.7;
+      C[i*3] = 0.06; C[i*3+1] = 0.09; C[i*3+2] = 0.16;
+    }
+  } else {
+    S.fill(0);
+  }
+
+  const palette = MODE_PALETTE[currentMode] || [1, 1, 1];
+
+  if (currentMode === "noise" || currentMode === "gauss") {
+    // ---- Off-lattice points ----
+    latticePoints.visible = false;
+    noisePoints.visible   = true;
+    pathLine.visible      = pathChk.checked && false; // path is meaningless off-lattice
+
+    const k = Math.min(currentCount, TARGET_N);
+    const rand = mulberry32(lastSeed + (currentMode === "gauss" ? 991 : 17));
+    const R = (maxShell + 0.5) * SPACING;
+    const sigma = R * 0.42;
+    const nPos = noiseGeom.getAttribute("position").array;
+    const nCol = noiseGeom.getAttribute("color").array;
+    const nSiz = noiseGeom.getAttribute("size").array;
+
+    for (let i = 0; i < TARGET_N; i++) {
+      if (i < k) {
+        if (currentMode === "noise") {
+          nPos[i*3  ] = (rand() * 2 - 1) * R;
+          nPos[i*3+1] = (rand() * 2 - 1) * R;
+          nPos[i*3+2] = (rand() * 2 - 1) * R;
+        } else {
+          nPos[i*3  ] = gaussSample(rand) * sigma;
+          nPos[i*3+1] = gaussSample(rand) * sigma;
+          nPos[i*3+2] = gaussSample(rand) * sigma;
+        }
+        nCol[i*3] = palette[0]; nCol[i*3+1] = palette[1]; nCol[i*3+2] = palette[2];
+        nSiz[i]   = 4.5;
+      } else {
+        nSiz[i] = 0;
+      }
+    }
+    noiseGeom.getAttribute("position").needsUpdate = true;
+    noiseGeom.getAttribute("color").needsUpdate    = true;
+    noiseGeom.getAttribute("size").needsUpdate     = true;
+    sizeAttr.needsUpdate  = true;
+    colorAttr.needsUpdate = true;
+    return;
+  }
+
+  // ---- Lattice subset modes ----
+  latticePoints.visible = true;
+  noisePoints.visible   = false;
+  pathLine.visible      = pathChk.checked;
+
+  // Special-case modes that color *every* shown integer rather than
+  // highlighting a uniform-colored subset.
+  if (currentMode === "spf") {
+    const cap = Math.min(currentCount, TARGET_N);
+    for (let i = 0; i < cap; i++) {
+      const n = i + 1;
+      let col, sz;
+      if (n === 1) {
+        col = [0.55, 0.55, 0.6]; sz = 2.5;
+      } else if (isPrime[n]) {
+        col = [1.00, 0.95, 0.70]; sz = 5.5;
+      } else {
+        col = spfColor(spf[n]);   sz = 2.4;
+      }
+      S[i]       = sz;
+      C[i*3]     = col[0];
+      C[i*3 + 1] = col[1];
+      C[i*3 + 2] = col[2];
+    }
+    sizeAttr.needsUpdate  = true;
+    colorAttr.needsUpdate = true;
+    return;
+  }
+  if (currentMode === "residue") {
+    const m   = Math.max(2, mValue);
+    const a   = aValue;
+    const cap = Math.min(currentCount, TARGET_N);
+    if (a < 0) {
+      // Color every n in [1..cap] by n mod m.
+      for (let i = 0; i < cap; i++) {
+        const n = i + 1;
+        const r = n % m;
+        const col = hslToRgb(r / m, 0.65, 0.55);
+        S[i] = isPrime[n] ? 5.0 : 2.6;
+        C[i*3]     = col[0];
+        C[i*3 + 1] = col[1];
+        C[i*3 + 2] = col[2];
+      }
+    } else {
+      // Show only n ≡ a (mod m), up to cap of them.
+      const target = ((a % m) + m) % m;
+      const col = hslToRgb(target / m, 0.7, 0.6);
+      let shown = 0;
+      for (let i = 0; i < TARGET_N && shown < cap; i++) {
+        const n = i + 1;
+        if (n % m === target) {
+          S[i] = isPrime[n] ? 6.0 : 4.5;
+          C[i*3]     = col[0];
+          C[i*3 + 1] = col[1];
+          C[i*3 + 2] = col[2];
+          shown++;
+        }
+      }
+    }
+    sizeAttr.needsUpdate  = true;
+    colorAttr.needsUpdate = true;
+    return;
+  }
+
+  let indices;
+  const cap = Math.min(currentCount, modeMax(currentMode, kValue));
+  if (currentMode === "random") {
+    indices = randomLatticeIndices(TARGET_N, cap, lastSeed);
+  } else {
+    const baseList = modeIndices(currentMode, kValue);
+    indices = baseList.slice(0, cap);
+  }
+
+  const baseSize = 5.5;
+  for (const i of indices) {
+    S[i] = baseSize;
+    C[i*3]     = palette[0];
+    C[i*3 + 1] = palette[1];
+    C[i*3 + 2] = palette[2];
+  }
+  // n=1 marker is in primeIdx? no, 1 is not prime. In "all" mode let it have origin tint.
+  if (currentMode === "all" && indices.length > 0) {
+    // make origin slightly brighter so you can locate it
+    S[0] = 6.0;
+    C[0] = 1.0; C[1] = 1.0; C[2] = 1.0;
+  }
+
+  sizeAttr.needsUpdate  = true;
+  colorAttr.needsUpdate = true;
+}
+
+// ---------- UI wiring ----------
+const panel        = document.getElementById("panel");
+const panelHeader  = document.getElementById("panelHeader");
+const panelArrow   = document.getElementById("panelArrow");
+const modeSelect   = document.getElementById("modeSelect");
+const kRow         = document.getElementById("kRow");
+const kInput       = document.getElementById("kInput");
+const residueRow   = document.getElementById("residueRow");
+const mInput       = document.getElementById("mInput");
+const aInput       = document.getElementById("aInput");
+const countSlider  = document.getElementById("countSlider");
+const countNum     = document.getElementById("countNum");
+const countMeta    = document.getElementById("countMeta");
+const pathChk      = document.getElementById("pathChk");
+const axesChk      = document.getElementById("axesChk");
+const cubeChk      = document.getElementById("cubeChk");
+const dimChk       = document.getElementById("dimComp");
+const rerollBtn    = document.getElementById("rerollBtn");
+const resetBtn     = document.getElementById("resetBtn");
+const camButtons   = document.querySelectorAll('[data-cam]');
+
+function syncCount(value, refresh = true) {
+  const max = modeMax(currentMode, kValue);
+  const v   = Math.max(0, Math.min(value | 0, TARGET_N));
+  currentCount = Math.min(v, max);
+  countSlider.value = v;
+  countNum.value    = v;
+  countSlider.max   = TARGET_N;
+
+  const palette = MODE_PALETTE[currentMode];
+  const swatch = `<span class="swatch" style="background:rgb(${
+      Math.round(palette[0]*255)},${Math.round(palette[1]*255)},${Math.round(palette[2]*255)})"></span>`;
+  countMeta.innerHTML =
+    `${swatch}${currentCount.toLocaleString()} / ${max.toLocaleString()} ${MODE_LABEL[currentMode]}`;
+
+  if (refresh) applyMode();
+}
+
+function setMode(mode, opts = {}) {
+  currentMode = mode;
+  modeSelect.value = mode;
+  kRow.style.display       = (mode === "multiples") ? "" : "none";
+  residueRow.style.display = (mode === "residue")   ? "" : "none";
+
+  // Sensible default count when changing mode
+  let target;
+  if (opts.preserveCount) target = currentCount;
+  else if (mode === "random" || mode === "noise" || mode === "gauss") target = primeIdx.length;
+  else target = modeMax(mode, kValue);
+  syncCount(target, true);
+}
+
+function setCamera(mode) {
+  useOrtho = (mode === "ortho");
+  camButtons.forEach(b => b.classList.toggle("active", b.dataset.cam === mode));
+  // Sync orthographic camera once on the switch.
+  ortho.position.copy(persp.position);
+  ortho.quaternion.copy(persp.quaternion);
+  updateOrthoFrustum();
+  // Tell shader so points keep a sane size in ortho.
+  const orthoFactor = (innerHeight / (orthoSize * 2)) * 0.025;
+  latticeMaterial.uniforms.uIsOrtho.value = useOrtho;
+  latticeMaterial.uniforms.uOrthoFactor.value = orthoFactor;
+  noiseMaterial.uniforms.uIsOrtho.value = useOrtho;
+  noiseMaterial.uniforms.uOrthoFactor.value = orthoFactor;
+}
+
+panelHeader.addEventListener("click", () => {
+  panel.classList.toggle("collapsed");
+  panelArrow.textContent = panel.classList.contains("collapsed") ? "▸" : "▾";
+});
+
+modeSelect.addEventListener("change", () => setMode(modeSelect.value));
+kInput.addEventListener("input", () => {
+  const k = Math.max(2, parseInt(kInput.value) || 2);
+  kValue = k;
+  if (currentMode === "multiples") setMode("multiples", { preserveCount: true });
+});
+mInput.addEventListener("input", () => {
+  mValue = Math.max(2, parseInt(mInput.value) || 2);
+  if (currentMode === "residue") setMode("residue");
+});
+aInput.addEventListener("input", () => {
+  const v = parseInt(aInput.value);
+  aValue = isNaN(v) ? -1 : v;
+  if (currentMode === "residue") setMode("residue");
+});
+countSlider.addEventListener("input", () => syncCount(parseInt(countSlider.value)));
+countNum.addEventListener("input",    () => syncCount(parseInt(countNum.value)));
+pathChk.addEventListener("change", () => {
+  pathLine.visible = pathChk.checked && (currentMode !== "noise" && currentMode !== "gauss");
+});
+axesChk.addEventListener("change", () => { axesGroup.visible = axesChk.checked; });
+cubeChk.addEventListener("change", () => { cubeGroup.visible = cubeChk.checked; });
+dimChk.addEventListener ("change", () => { dimComposites = dimChk.checked; applyMode(); });
+rerollBtn.addEventListener("click", () => { lastSeed = (Math.random() * 1e9) | 0; applyMode(); });
+resetBtn .addEventListener("click", () => {
+  persp.position.set(maxShell * 2.6, maxShell * 1.6, maxShell * 3.0);
+  persp.lookAt(0, 0, 0);
+  orthoSize = maxShell * 1.7;
+  updateOrthoFrustum();
+  setCamera(useOrtho ? "ortho" : "persp");
+});
+camButtons.forEach(b => b.addEventListener("click", () => setCamera(b.dataset.cam)));
+
+// ---------- Keyboard controls ----------
+const move = { f:false, b:false, l:false, r:false, u:false, d:false, sprint:false };
+const MODE_HOTKEY = {
+  Digit1: "primes", Digit2: "random", Digit3: "composites", Digit4: "multiples",
+  Digit5: "sixn",   Digit6: "noise",  Digit7: "gauss",      Digit8: "all",
+  Digit9: "spf",    Digit0: "residue",
+};
+
+addEventListener("keydown", (e) => {
+  // Don't intercept while typing in panel inputs.
+  const t = e.target;
+  if (t && (t.tagName === "INPUT" || t.tagName === "SELECT" || t.tagName === "TEXTAREA")) {
+    if (e.code === "Escape") t.blur();
+    return;
+  }
+  if (MODE_HOTKEY[e.code]) {
+    setMode(MODE_HOTKEY[e.code]);
+    e.preventDefault();
+    return;
+  }
+  switch (e.code) {
+    case "KeyW": move.f = true; break;
+    case "KeyS": move.b = true; break;
+    case "KeyA": move.l = true; break;
+    case "KeyD": move.r = true; break;
+    case "KeyE": move.u = true; break;
+    case "KeyQ": move.d = true; break;
+    case "ShiftLeft": case "ShiftRight": move.sprint = true; break;
+    case "KeyO":
+      setCamera(useOrtho ? "persp" : "ortho");
+      break;
+    case "KeyL":
+      pathChk.checked = !pathChk.checked;
+      pathLine.visible = pathChk.checked && (currentMode !== "noise" && currentMode !== "gauss");
+      break;
+    case "KeyN":
+      lastSeed = (Math.random() * 1e9) | 0;
+      applyMode();
+      break;
+    case "KeyR":
+      persp.position.set(maxShell * 2.6, maxShell * 1.6, maxShell * 3.0);
+      persp.lookAt(0, 0, 0);
+      orthoSize = maxShell * 1.7;
+      updateOrthoFrustum();
+      setCamera(useOrtho ? "ortho" : "persp");
+      break;
+    case "BracketLeft":
+      latticeMaterial.uniforms.uSizeScale.value = Math.max(0.25,
+        latticeMaterial.uniforms.uSizeScale.value * 0.85);
+      noiseMaterial.uniforms.uSizeScale.value = latticeMaterial.uniforms.uSizeScale.value;
+      break;
+    case "BracketRight":
+      latticeMaterial.uniforms.uSizeScale.value = Math.min(4.0,
+        latticeMaterial.uniforms.uSizeScale.value * 1.18);
+      noiseMaterial.uniforms.uSizeScale.value = latticeMaterial.uniforms.uSizeScale.value;
+      break;
+  }
+});
+addEventListener("keyup", (e) => {
+  switch (e.code) {
+    case "KeyW": move.f = false; break;
+    case "KeyS": move.b = false; break;
+    case "KeyA": move.l = false; break;
+    case "KeyD": move.r = false; break;
+    case "KeyE": move.u = false; break;
+    case "KeyQ": move.d = false; break;
+    case "ShiftLeft": case "ShiftRight": move.sprint = false; break;
+  }
+});
+
+// Wheel zooms in orthographic only. (Don't fight scroll over panel inputs.)
+addEventListener("wheel", (e) => {
+  if (!useOrtho) return;
+  if (e.target.closest && e.target.closest("#panel")) return;
+  orthoSize = Math.max(2, Math.min(orthoSize * Math.exp(e.deltaY * 0.001), maxShell * 6));
+  updateOrthoFrustum();
+  const orthoFactor = (innerHeight / (orthoSize * 2)) * 0.025;
+  latticeMaterial.uniforms.uOrthoFactor.value = orthoFactor;
+  noiseMaterial.uniforms.uOrthoFactor.value   = orthoFactor;
+  e.preventDefault();
+}, { passive: false });
+
+addEventListener("resize", () => {
+  persp.aspect = innerWidth / innerHeight;
+  persp.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  latticeMaterial.uniforms.uPixelRatio.value = renderer.getPixelRatio();
+  noiseMaterial.uniforms.uPixelRatio.value   = renderer.getPixelRatio();
+  updateOrthoFrustum();
+  if (useOrtho) {
+    const orthoFactor = (innerHeight / (orthoSize * 2)) * 0.025;
+    latticeMaterial.uniforms.uOrthoFactor.value = orthoFactor;
+    noiseMaterial.uniforms.uOrthoFactor.value   = orthoFactor;
+  }
+});
+
+// ---------- Stats HUD ----------
+const statsEl = document.getElementById("stats");
+function updateStats() {
+  const cam = useOrtho ? ortho : persp;
+  const p = cam.position;
+  const inside = Math.max(Math.abs(p.x), Math.abs(p.y), Math.abs(p.z)) < (maxShell + 0.5) * SPACING;
+  const palette = MODE_PALETTE[currentMode];
+  const sw = `<span class="swatch" style="background:rgb(${Math.round(palette[0]*255)},${Math.round(palette[1]*255)},${Math.round(palette[2]*255)})"></span>`;
+  let modeSuffix = "";
+  if (currentMode === "multiples") modeSuffix = ` (k=${kValue})`;
+  else if (currentMode === "residue") {
+    modeSuffix = aValue < 0
+      ? ` (mod ${mValue}, all residues)`
+      : ` (n ≡ ${((aValue % mValue) + mValue) % mValue} mod ${mValue})`;
+  }
+  statsEl.innerHTML =
+    `${sw}mode: <b>${MODE_LABEL[currentMode]}</b>${modeSuffix}` +
+    `  ·  showing ${currentCount.toLocaleString()} / ${TARGET_N.toLocaleString()}  ·  ` +
+    `density ${(currentCount/TARGET_N*100).toFixed(2)}%<br>` +
+    `camera: <b>${useOrtho ? "orthographic" : "perspective"}</b>` +
+    (useOrtho ? `  ·  ortho size: ${orthoSize.toFixed(1)}` : "") +
+    `  ·  shells: ${maxShell}  ·  pos: ${p.x.toFixed(1)}, ${p.y.toFixed(1)}, ${p.z.toFixed(1)}` +
+    `  ${inside ? "(inside)" : ""}`;
+}
+
+// ---------- Animation loop ----------
+const clock = new THREE.Clock();
+const fwd   = new THREE.Vector3();
+const right = new THREE.Vector3();
+const worldUp = new THREE.Vector3(0, 1, 0);
+
+function animate() {
+  const dt = Math.min(clock.getDelta(), 0.1);
+
+  if (controls.isLocked) {
+    const speed = (move.sprint ? 90 : 28) * SPACING;
+    persp.getWorldDirection(fwd);
+    right.crossVectors(fwd, worldUp).normalize();
+    if (move.f) persp.position.addScaledVector(fwd,   speed * dt);
+    if (move.b) persp.position.addScaledVector(fwd,  -speed * dt);
+    if (move.l) persp.position.addScaledVector(right,-speed * dt);
+    if (move.r) persp.position.addScaledVector(right, speed * dt);
+    if (move.u) persp.position.y += speed * dt;
+    if (move.d) persp.position.y -= speed * dt;
+  } else {
+    const t = clock.getElapsedTime() * 0.07;
+    const radius = maxShell * 3.4;
+    persp.position.set(Math.cos(t) * radius, maxShell * 1.4, Math.sin(t) * radius);
+    persp.lookAt(0, 0, 0);
+  }
+
+  // Mirror perspective camera state into ortho so they share the same view.
+  ortho.position.copy(persp.position);
+  ortho.quaternion.copy(persp.quaternion);
+
+  updateStats();
+  renderer.render(scene, useOrtho ? ortho : persp);
+  requestAnimationFrame(animate);
+}
+
+// ---------- First paint ----------
+setMode("primes");
+animate();
+</script>
+</body>
+</html>

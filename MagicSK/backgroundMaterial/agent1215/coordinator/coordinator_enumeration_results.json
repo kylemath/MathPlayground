@@ -1,0 +1,9 @@
+{
+  "method": "ordered 34-sum row partitions with forced fourth row",
+  "row_value_sets_summing_to_34": 86,
+  "ordered_candidate_row_partitions": 9408,
+  "oriented_count": 7040,
+  "d4_canonical_count": 880,
+  "orbit_size_histogram": {"8": 880},
+  "product_check": true
+}

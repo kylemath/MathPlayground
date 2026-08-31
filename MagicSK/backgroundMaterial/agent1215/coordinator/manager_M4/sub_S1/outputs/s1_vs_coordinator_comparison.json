@@ -1,0 +1,25 @@
+{
+  "comparison_note": "Independent S1 audit vs coordinator_dataset_audit.json on same CSV",
+  "fields_matching": [
+    "record_count: 880",
+    "unique_literal_grids / unique_literal: 880",
+    "unique_d4_canonical_grids / unique_d4_canonical: 880",
+    "d4_orbit_size_distribution: {8: 880}",
+    "oriented_union_count: 7040",
+    "all_normal_magic / all_magic: true",
+    "ids_are_1_through_880 / ids_1_to_880: true",
+    "rows_already_lexicographically_canonical / all_rows_frenicle_canonical: 880",
+    "dudeney_group_distribution: identical 12-group counts"
+  ],
+  "complement_field_naming": {
+    "coordinator": "declared_complement_or_999_sentinel_consistent: 880",
+    "s1": "complement_declarations_consistent: 880"
+  },
+  "s1_additional_checks": [
+    "structural_property_counts (pandiagonal/associative/semi_pandiagonal)",
+    "dudeney_label_mismatches (empty)",
+    "live Heinz fetch: 880 records parsed",
+    "analysis.csv cohort recount: 4400 rows, 880 per cohort",
+    "D4 expansion measured union equals 880*8 formula"
+  ]
+}

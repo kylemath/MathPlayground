@@ -1,0 +1,10 @@
+{
+  "total_records": 4400,
+  "parseval_failures": 0,
+  "coeff_failures": 0,
+  "energy_partition_failures": 0,
+  "reconstruction_failures": 0,
+  "height_energy_failures": 0,
+  "sample_parseval_failures": [],
+  "sample_coeff_failures": []
+}

@@ -1,0 +1,35 @@
+{
+  "all_normal_magic": true,
+  "complement_targets_present": 880,
+  "csv_matches_from_scratch_enumeration": true,
+  "csv_only_canonical_count": 0,
+  "d4_orbit_size_distribution": {
+    "8": 880
+  },
+  "declared_complement_ids_directly_match": 880,
+  "declared_complement_or_999_sentinel_consistent": 880,
+  "dudeney_group_distribution": {
+    "1": 48,
+    "2": 48,
+    "3": 48,
+    "4": 96,
+    "5": 96,
+    "6": 304,
+    "7": 56,
+    "8": 56,
+    "9": 56,
+    "10": 56,
+    "11": 8,
+    "12": 8
+  },
+  "enumerated_canonical_count": 880,
+  "enumerated_canonical_source": "/Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/coordinator_enumerated_canonicals.csv",
+  "enumeration_only_canonical_count": 0,
+  "ids_are_1_through_880": true,
+  "oriented_union_count": 7040,
+  "record_count": 880,
+  "rows_already_lexicographically_canonical": 880,
+  "source": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+  "unique_d4_canonical_grids": 880,
+  "unique_literal_grids": 880
+}

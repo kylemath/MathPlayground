@@ -1,0 +1,56 @@
+{
+  "ui_claims": {
+    "fundamental_squares": 880,
+    "oriented_squares": 7040,
+    "analyzed_records": 4400,
+    "fixed_height_energy": 340,
+    "seed": 20260709
+  },
+  "metadata_values": {
+    "sourceCount": 880,
+    "expandedOrientedCount": 7040,
+    "record_count": 4400,
+    "heightEnergy": 340.0,
+    "seed": 20260709
+  },
+  "cohort_counts": {
+    "magic": 880,
+    "swap-1": 880,
+    "swap-2": 880,
+    "swap-3": 880,
+    "random": 880
+  },
+  "mode_inventory": {
+    "total_modes_excluding_M00": 15,
+    "axial_modes": [
+      "M01",
+      "M02",
+      "M03",
+      "M10",
+      "M20",
+      "M30"
+    ],
+    "interaction_modes": [
+      "M11",
+      "M12",
+      "M13",
+      "M21",
+      "M22",
+      "M23",
+      "M31",
+      "M32",
+      "M33"
+    ],
+    "axial_count": 6,
+    "interaction_count": 9
+  },
+  "spectral_centroid_note": "spectralCentroid = sum(d * E_d for d in 2..6) / interactionEnergy; uses interaction modes only, not axial",
+  "low_order_note": "lowOrderEnergy = degreeEnergy['2'] + degreeEnergy['3']",
+  "claims_match": {
+    "880_fundamental": true,
+    "7040_oriented": true,
+    "4400_records": true,
+    "340_energy": true,
+    "five_cohorts_880_each": true
+  }
+}

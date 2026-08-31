@@ -1,0 +1,35 @@
+{
+  "analysis_histogram_normalized": {
+    "1": 48,
+    "10": 56,
+    "11": 8,
+    "12": 8,
+    "2": 48,
+    "3": 48,
+    "4": 96,
+    "5": 96,
+    "6": 304,
+    "7": 56,
+    "8": 56,
+    "9": 56
+  },
+  "csv_histogram_normalized": {
+    "1": 48,
+    "10": 56,
+    "11": 8,
+    "12": 8,
+    "2": 48,
+    "3": 48,
+    "4": 96,
+    "5": 96,
+    "6": 304,
+    "7": 56,
+    "8": 56,
+    "9": 56
+  },
+  "csv_keys_type": "int (from Counter on int dudeney_group)",
+  "json_keys_type": "str (JSON object keys are always strings)",
+  "normalized_comparison_equal": true,
+  "note": "dudeney_matches_csv=false in s1_independent_verify.json is a key-type artifact only; histograms match after str() normalization.",
+  "raw_comparison_equal": true
+}

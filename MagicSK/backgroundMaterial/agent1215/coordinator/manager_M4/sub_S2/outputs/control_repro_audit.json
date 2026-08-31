@@ -1,0 +1,275 @@
+{
+  "control_generation": {
+    "seed": 20260709,
+    "prng": "random.Random",
+    "swap_method": "rng.sample(range(16), 2*count) then pairwise swap",
+    "random_method": "rng.shuffle(list(range(1,17)))",
+    "swap_examples": {
+      "swap_1_first_source": {
+        "swap_count": 1,
+        "positions_sampled": 2,
+        "still_permutation": true,
+        "cells": [
+          1,
+          2,
+          15,
+          16,
+          12,
+          9,
+          3,
+          5,
+          13,
+          7,
+          10,
+          4,
+          8,
+          11,
+          6,
+          14
+        ]
+      },
+      "swap_2_first_source": {
+        "swap_count": 2,
+        "positions_sampled": 4,
+        "still_permutation": true,
+        "cells": [
+          3,
+          2,
+          15,
+          16,
+          12,
+          14,
+          1,
+          5,
+          13,
+          7,
+          11,
+          4,
+          8,
+          10,
+          6,
+          9
+        ]
+      },
+      "swap_3_first_source": {
+        "swap_count": 3,
+        "positions_sampled": 6,
+        "still_permutation": true,
+        "cells": [
+          16,
+          13,
+          10,
+          1,
+          12,
+          14,
+          3,
+          5,
+          2,
+          7,
+          15,
+          4,
+          8,
+          11,
+          6,
+          9
+        ]
+      }
+    },
+    "random_first_three": [
+      {
+        "index": 1,
+        "cells": [
+          14,
+          1,
+          6,
+          9,
+          11,
+          4,
+          13,
+          7,
+          15,
+          10,
+          5,
+          16,
+          8,
+          2,
+          3,
+          12
+        ]
+      },
+      {
+        "index": 2,
+        "cells": [
+          12,
+          16,
+          3,
+          4,
+          2,
+          8,
+          7,
+          15,
+          6,
+          10,
+          5,
+          1,
+          9,
+          11,
+          13,
+          14
+        ]
+      },
+      {
+        "index": 3,
+        "cells": [
+          11,
+          16,
+          6,
+          7,
+          14,
+          13,
+          10,
+          8,
+          3,
+          15,
+          1,
+          12,
+          4,
+          9,
+          2,
+          5
+        ]
+      }
+    ]
+  },
+  "aggregation": {
+    "recomputed_summary": [
+      {
+        "cohort": "magic",
+        "count": 880,
+        "magicCount": 880,
+        "meanLineDefect": 0.0,
+        "meanAxialEnergy": 0.0,
+        "meanLowOrderEnergy": 124.845091,
+        "meanSpectralCentroid": 4.0
+      },
+      {
+        "cohort": "random",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 677.177273,
+        "meanAxialEnergy": 136.454545,
+        "meanLowOrderEnergy": 66.846318,
+        "meanSpectralCentroid": 4.008771
+      },
+      {
+        "cohort": "swap-1",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 161.654545,
+        "meanAxialEnergy": 32.821023,
+        "meanLowOrderEnergy": 111.983,
+        "meanSpectralCentroid": 3.998224
+      },
+      {
+        "cohort": "swap-2",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 315.690909,
+        "meanAxialEnergy": 63.56875,
+        "meanLowOrderEnergy": 98.179864,
+        "meanSpectralCentroid": 3.99859
+      },
+      {
+        "cohort": "swap-3",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 429.363636,
+        "meanAxialEnergy": 84.6375,
+        "meanLowOrderEnergy": 90.937568,
+        "meanSpectralCentroid": 3.986844
+      }
+    ],
+    "shipped_summary": [
+      {
+        "cohort": "magic",
+        "count": 880,
+        "magicCount": 880,
+        "meanLineDefect": 0.0,
+        "meanAxialEnergy": 0.0,
+        "meanLowOrderEnergy": 124.845091,
+        "meanSpectralCentroid": 4.0
+      },
+      {
+        "cohort": "random",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 677.177273,
+        "meanAxialEnergy": 136.454545,
+        "meanLowOrderEnergy": 66.846318,
+        "meanSpectralCentroid": 4.008771
+      },
+      {
+        "cohort": "swap-1",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 161.654545,
+        "meanAxialEnergy": 32.821023,
+        "meanLowOrderEnergy": 111.983,
+        "meanSpectralCentroid": 3.998224
+      },
+      {
+        "cohort": "swap-2",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 315.690909,
+        "meanAxialEnergy": 63.56875,
+        "meanLowOrderEnergy": 98.179864,
+        "meanSpectralCentroid": 3.99859
+      },
+      {
+        "cohort": "swap-3",
+        "count": 880,
+        "magicCount": 0,
+        "meanLineDefect": 429.363636,
+        "meanAxialEnergy": 84.6375,
+        "meanLowOrderEnergy": 90.937568,
+        "meanSpectralCentroid": 3.986844
+      }
+    ],
+    "matches": true
+  },
+  "reproducibility": {
+    "record_count_ref": 4400,
+    "record_count_rep": 4400,
+    "metadata_field_match": {
+      "order": true,
+      "magicSum": true,
+      "sourceCount": true,
+      "expandedOrientedCount": true,
+      "seed": true,
+      "randomCount": true,
+      "heightEnergy": true,
+      "coordinates": true,
+      "basis": true,
+      "cohortSummary": true,
+      "dudeneyCounts": true
+    },
+    "all_metadata_match": true,
+    "record_ids_match": true,
+    "metric_mismatches": [],
+    "fully_reproducible": true
+  },
+  "repro_command": [
+    "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
+    "/Users/kylemathewson/MagicSK/MagicMomentExplorer/scripts/analyze.py",
+    "--input",
+    "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+    "--output-dir",
+    "/Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run",
+    "--random-count",
+    "880",
+    "--seed",
+    "20260709"
+  ],
+  "repro_stdout": "Wrote 4400 records to /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run/analysis.json, /Users/kylemathewson/MagicSK/backgroundMaterial/agent1215/coordinator/manager_M4/sub_S2/outputs/repro_run/analysis.csv, and analysis-data.js"
+}

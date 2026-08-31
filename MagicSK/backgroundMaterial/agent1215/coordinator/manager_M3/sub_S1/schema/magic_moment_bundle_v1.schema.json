@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://magic-moment.local/schema/magic_moment_bundle_v1.schema.json",
+  "title": "Magic Moment Bundle v1",
+  "description": "Compact, versioned browser payload for 880 D4-canonical normal order-4 magic squares with spatial-moment summaries and control aggregates.",
+  "type": "object",
+  "required": ["meta", "records"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": { "$ref": "#/$defs/meta" },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 880,
+      "items": { "$ref": "#/$defs/recordTuple" }
+    },
+    "controlAggregates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/controlAggregate" }
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "bundleKind",
+        "order",
+        "magicSum",
+        "recordCount",
+        "idRange",
+        "idPolicy",
+        "modes",
+        "recordLayout",
+        "provenance"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1.0.0",
+          "description": "Semantic version for migration hooks."
+        },
+        "bundleKind": {
+          "type": "string",
+          "const": "magic-moment"
+        },
+        "order": { "type": "integer", "const": 4 },
+        "magicSum": { "type": "integer", "const": 34 },
+        "recordCount": { "type": "integer", "const": 880 },
+        "orientedUnionCount": { "type": "integer", "const": 7040 },
+        "idRange": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "integer" }
+        },
+        "idPolicy": {
+          "type": "string",
+          "const": "stable-source-id-1-based",
+          "description": "Record id equals source CSV id; never renumbered across builds."
+        },
+        "modes": {
+          "type": "array",
+          "minItems": 15,
+          "maxItems": 15,
+          "items": {
+            "type": "string",
+            "pattern": "^M[0-3][0-3]$"
+          }
+        },
+        "modeCount": { "type": "integer", "const": 15 },
+        "classFlags": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        },
+        "recordLayout": { "$ref": "#/$defs/recordLayout" },
+        "coordinates": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": { "type": "number" }
+        },
+        "basisRef": {
+          "type": "string",
+          "description": "External basis definition key; full basis vectors omitted from bundle."
+        },
+        "heightEnergy": { "type": "number", "const": 340.0 },
+        "controlSeed": { "type": "integer" },
+        "provenance": { "$ref": "#/$defs/provenance" }
+      }
+    },
+    "recordLayout": {
+      "type": "object",
+      "required": ["type", "fields"],
+      "properties": {
+        "type": { "type": "string", "const": "tuple" },
+        "fields": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 9,
+          "maxItems": 9
+        },
+        "energySummaryFields": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "sourceArtifact",
+        "sourceSha256",
+        "pipeline",
+        "generatedAt",
+        "checksumPolicy"
+      ],
+      "properties": {
+        "sourceArtifact": { "type": "string" },
+        "sourceSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hex digest of sourceArtifact at build time."
+        },
+        "pipeline": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "checksumPolicy": {
+          "type": "string",
+          "const": "sha256-of-source-csv-at-build"
+        },
+        "licenseNote": { "type": "string" },
+        "reproducibility": {
+          "type": "object",
+          "properties": {
+            "randomControlCount": { "type": "integer" },
+            "swapPerturbationCounts": {
+              "type": "array",
+              "items": { "type": "integer" }
+            },
+            "swapPolicy": { "type": "string" }
+          }
+        }
+      }
+    },
+    "recordTuple": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 880,
+          "description": "Stable id (sourceId)."
+        },
+        {
+          "type": "array",
+          "minItems": 16,
+          "maxItems": 16,
+          "items": { "type": "integer", "minimum": 1, "maximum": 16 },
+          "description": "Row-major cell values 1..16."
+        },
+        { "type": "integer", "minimum": 1, "maximum": 12, "description": "Dudeney group." },
+        { "type": "integer", "minimum": 0, "description": "Group orientation index." },
+        { "type": "integer", "description": "Complement pair id or 999 sentinel." },
+        { "type": "integer", "minimum": 1, "maximum": 880, "description": "Complement record id." },
+        {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Classification bit flags (M1-owned vocabulary)."
+        },
+        {
+          "type": "array",
+          "minItems": 15,
+          "maxItems": 15,
+          "items": { "type": "number" },
+          "description": "Moment coefficients in meta.modes order."
+        },
+        {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": { "type": "number" },
+          "description": "Energy summary: axial, interaction, lowOrder, highOrder, spectralCentroid."
+        }
+      ]
+    },
+    "controlAggregate": {
+      "type": "object",
+      "required": ["cohort", "swaps", "interactionEnergy", "highOrderEnergy"],
+      "properties": {
+        "cohort": {
+          "type": "string",
+          "enum": ["random", "swap-1", "swap-2", "swap-3"]
+        },
+        "swaps": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "interactionEnergy": { "$ref": "#/$defs/statBlock" },
+        "highOrderEnergy": { "$ref": "#/$defs/statBlock" },
+        "lowOrderEnergy": { "$ref": "#/$defs/statBlock" },
+        "isMagicRate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "statBlock": {
+      "type": "object",
+      "required": ["n", "mean", "min", "max"],
+      "properties": {
+        "n": { "type": "integer" },
+        "mean": { "type": "number" },
+        "min": { "type": "number" },
+        "max": { "type": "number" }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "check_fixed_plus_paired_equals_880": true,
+  "classes_in_two_cycles": 528,
+  "complement_orbits_total": 616,
+  "declared_complement_ids_consistent": true,
+  "fixed_d4_classes_under_complement": 352,
+  "note": "Complement acts on values (x -> 17-x), then re-canonicalize under D4. This is separate from the D4 quotient itself.",
+  "record_count": 880,
+  "source": "/Users/kylemathewson/MagicSK/MagicMomentExplorer/data/magic_squares_880.csv",
+  "two_cycles_among_remaining_classes": 264
+}

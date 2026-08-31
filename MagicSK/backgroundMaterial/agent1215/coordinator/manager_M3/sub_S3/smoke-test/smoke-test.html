@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smoke Test Runner — M3-S3 Prototype</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #0d1117; color: #e6edf3; }
+    body { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; }
+    #log { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 1rem; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; }
+    .pass { color: #3fb950; }
+    .fail { color: #f85149; }
+    button { margin-top: 1rem; padding: 0.5rem 1rem; background: #1f6feb; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <h1>Browser Smoke Test Runner</h1>
+  <p>Dependency-free checks for the static prototype modules.</p>
+  <button type="button" id="run">Run checks</button>
+  <div id="log" role="log" aria-live="polite" aria-label="Test output"></div>
+
+  <script src="../prototype/embedded-data.js"></script>
+  <script src="../prototype/data-loader.js"></script>
+  <script src="../prototype/diagram.js"></script>
+  <script src="../prototype/energy-viz.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      const logEl = document.getElementById("log");
+      let pass = 0;
+      let fail = 0;
+
+      function line(ok, name, detail) {
+        if (ok) pass += 1; else fail += 1;
+        const span = document.createElement("div");
+        span.className = ok ? "pass" : "fail";
+        span.textContent = (ok ? "PASS " : "FAIL ") + name + (detail ? " — " + detail : "");
+        logEl.appendChild(span);
+      }
+
+      async function run() {
+        logEl.textContent = "";
+        pass = 0;
+        fail = 0;
+
+        line(Boolean(window.__EMBEDDED_RECORDS__), "embedded payload on window");
+        try {
+          RecordDataLoader.validatePayload(window.__EMBEDDED_RECORDS__);
+          line(true, "validatePayload embedded");
+        } catch (e) {
+          line(false, "validatePayload embedded", e.message);
+        }
+
+        const serve = RecordDataLoader.describeServeMode();
+        line(serve.mode === "file" || serve.mode === "http", "serve mode detected", serve.mode);
+
+        let loadedViaFetch = false;
+        try {
+          const payload = await RecordDataLoader.loadDataset();
+          line(Array.isArray(payload.records), "loadDataset resolved", payload.records.length + " records");
+          loadedViaFetch = true;
+        } catch (e) {
+          line(false, "loadDataset", e.message);
+        }
+
+        const record = window.__EMBEDDED_RECORDS__.records[0];
+        const grid = document.createElement("div");
+        grid.id = "test-grid";
+        grid.setAttribute("role", "grid");
+        document.body.appendChild(grid);
+        const status = document.createElement("p");
+        status.id = "diagram-status";
+        document.body.appendChild(status);
+
+        SquareDiagram.createDiagram(grid, record);
+        line(grid.querySelectorAll(".square-cell").length === 16, "diagram renders 16 cells");
+
+        const viz = document.createElement("div");
+        document.body.appendChild(viz);
+        const alt = document.createElement("div");
+        alt.id = "energy-table-alt";
+        document.body.appendChild(alt);
+        EnergyViz.render(viz, record);
+        const svg = viz.querySelector("svg");
+        line(Boolean(svg && svg.querySelector("title")), "energy SVG with title");
+
+        grid.remove();
+        status.remove();
+        viz.remove();
+        alt.remove();
+
+        line(true, "protocol note", loadedViaFetch ? "fetch path OK" : "using embedded fallback (expected on file://)");
+
+        const summary = document.createElement("div");
+        summary.textContent = `\nSummary: ${pass} passed, ${fail} failed`;
+        logEl.appendChild(summary);
+      }
+
+      document.getElementById("run").addEventListener("click", run);
+    })();
+  </script>
+</body>
+</html>

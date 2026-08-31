@@ -1,0 +1,12 @@
+{
+  "id": "PrimeLattice",
+  "title": "Prime Lattice",
+  "kind": "project",
+  "status": "active",
+  "server": {
+    "type": "static",
+    "port": 8080,
+    "openPath": "/",
+    "autoStart": false
+  }
+}

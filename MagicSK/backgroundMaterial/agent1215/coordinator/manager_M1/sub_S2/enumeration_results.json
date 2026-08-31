@@ -1,0 +1,64 @@
+{
+  "algorithm": "sum-34 row masks; first three rows force fourth by columns",
+  "all_canonical_are_canonical_form": true,
+  "all_oriented_magic": true,
+  "all_oriented_normal": true,
+  "canonical_checksum_sha256": "1197628441f1fe0e5af38b85dd8eb17d0c72bf037e41fe44db219fe90de4f576",
+  "canonical_count": 880,
+  "enumeration_seconds": 73.69553,
+  "first_canonical_grid": [
+    1,
+    2,
+    15,
+    16,
+    12,
+    14,
+    3,
+    5,
+    13,
+    7,
+    10,
+    4,
+    8,
+    11,
+    6,
+    9
+  ],
+  "last_canonical_grid": [
+    7,
+    14,
+    4,
+    9,
+    15,
+    6,
+    12,
+    1,
+    2,
+    3,
+    13,
+    16,
+    10,
+    11,
+    5,
+    8
+  ],
+  "literature_canonical_expected": 880,
+  "literature_oriented_expected": 7040,
+  "mode": "enumerate",
+  "orbit_size_distribution_canonical": {
+    "8": 880
+  },
+  "orbit_size_distribution_oriented": {
+    "8": 7040
+  },
+  "oriented_checksum_sha256": "6c034e5a28a21d7c9d7c61405ae7b1d6920c94d65fd1f182b17201ac656ee3ad",
+  "oriented_count": 7040,
+  "oriented_union_count": 7040,
+  "row_mask_count": 86,
+  "stabilizer_size_distribution_canonical": {
+    "1": 880
+  },
+  "stabilizer_size_distribution_oriented": {
+    "1": 7040
+  }
+}
