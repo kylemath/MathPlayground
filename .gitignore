@@ -37,3 +37,6 @@ yarn-error.log*
 *.log
 logs/
 
+
+# Files added by git-init-repo script
+PrimeLattice/catalogue.json

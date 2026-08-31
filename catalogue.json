@@ -1,0 +1,11 @@
+{
+  "id": "MathPlayground",
+  "title": "MathPlayground",
+  "oneLiner": "Playground for Math Webapps and Tests",
+  "demoUrl": "https://github.com/kylemath/MathPlayground",
+  "screenshot": "https://raw.githubusercontent.com/kylemath/MathPlayground/main/screenshot.png",
+  "kind": "project",
+  "categories": ["Math", "demos", "web"],
+  "tags": ["Math", "demos", "web"],
+  "status": "published"
+}
