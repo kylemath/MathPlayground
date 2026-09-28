@@ -40,7 +40,7 @@ header {
   flex: 0 0 auto;
 }
 
-header h1 {
+header .page-title {
   margin: 0;
   font-size: 1.05rem;
   font-weight: 600;
